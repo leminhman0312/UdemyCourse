@@ -1,0 +1,14 @@
+/* Exponent (m)^n 
+   2^5 = 2 x 2 x 2 x 2 x 2 
+   m^n = m x m x m for n times
+   pow(m,n) => m x m x m for (n-1) times then x m 
+   
+
+
+
+
+
+
+
+
+*/
