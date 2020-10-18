@@ -1,0 +1,33 @@
+/*  
+
+nCr = n! / (r!(n-r)!)
+
+Given A B C D E F G 
+How many way to select only 3 unique? 7 C 3 
+
+Value of r from 0 to n => r cannot greater than 5 
+
+*/
+
+
+#include <stdio.h>
+
+int fact(int n){
+  if (n == 0) {
+    return 1;
+  }
+  else {
+    return fact(n-1)*n;
+  }
+}
+
+
+
+int ncr(int n, int r){
+  int t1, t2, t3;
+  t1 = fact(n);
+  t2 = fact(r);
+  t3 = fact(n-r);
+
+  return t1/(t2*t3);
+}

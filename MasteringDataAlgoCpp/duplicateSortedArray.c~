@@ -1,0 +1,10 @@
+/* find duplicate in sorted array */
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  int a[10] = {3,6,8,8,10,12,15,15,15,20};
+  return 0;
+}
+
+

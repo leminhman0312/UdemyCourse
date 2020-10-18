@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/* ONE Missing element in sorted array */
+/* Find sum of all number */
+void iterSortedMissingNatural(int *arr){
+  int sum;
+  int s;
+  for (int i = 0; i < 11 ; i++) {
+    sum += *(arr+i);
+  }
+  
+  s = (12*(12+1))/2;
+  printf("%d\n", sum);
+  printf("%d\n", s);
+  printf("The missing element is %d\n", s-sum);
+}
+
+
+/* if no natural number */
+void iterSortedNoNatural(int *arr){
+  int diff, low;
+  int n = 11;
+  low = *arr;
+  diff = low - 0;
+
+  for (int i = 0; i < n ; i++) {
+    if (*(arr+i)-i != diff) {
+      printf("Missing element is: %d\n", i+diff);
+      break;
+    }
+  }
+}
+
+
+/* MULTIPLE missing elements in an array */
+
+
+
+
+
+
+int main(){
+
+  int arr[11] = {6,7,8,9,10,11,13,14,15,16,17};
+  iterSortedNoNatural(arr);
+  return 0;
+}
+

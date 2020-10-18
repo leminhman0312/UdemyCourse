@@ -1,0 +1,432 @@
+% Created 2020-09-27 Sun 14:17
+% Intended LaTeX compiler: pdflatex
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+
+
+
+
+\section{Intro to array}
+\label{sec:org944419f}
+\subsection{array on integer}
+\label{sec:org7e041ff}
+\subsection{Declaring arrays}
+\label{sec:org9b34bbf}
+\subsubsection{int A[5];   where we get garbage values}
+\label{sec:org5b8a509}
+\subsubsection{int A[5] = \{2,4,6,8,10\}; all values initialized}
+\label{sec:orgb4e7ee4}
+\subsubsection{int A[5] = \{2.4\}; only first 2 are initialized, rest is 0}
+\label{sec:orgac40717}
+\subsubsection{int A[5] = \{0\}; all zero}
+\label{sec:org703c971}
+\subsubsection{int A[] = \{2,4,6,8,10\}; automatically create A[5]}
+\label{sec:org73eeb05}
+\subsection{Traverse using for loop}
+\label{sec:org41821d6}
+\subsection{To print an element at position 2}
+\label{sec:orge961bd9}
+\subsubsection{A[2];}
+\label{sec:org5586b00}
+\subsubsection{2[A];}
+\label{sec:org67b2146}
+\subsubsection{*(A+2);}
+\label{sec:orgfc460cc}
+\section{Static vs Dynamic array}
+\label{sec:orgfd66504}
+\subsection{Static}
+\label{sec:org565495c}
+\subsubsection{size cannot be modified.  Memories created on STACK}
+\label{sec:org41526fe}
+\subsubsection{C: size decided at compilation time}
+\label{sec:org7dd185d}
+\subsubsection{C++: size at run time. Eg. cin >> n; int A[n];}
+\label{sec:orgd67b115}
+\subsection{Dynamic}
+\label{sec:orge6229ca}
+\subsubsection{on HEAP}
+\label{sec:orgaa9573e}
+\begin{enumerate}
+\item Create pointer int *p on STACK
+\label{sec:org33082bc}
+\item C++: p = new int[5]; create 5 integer array on HEAP
+\label{sec:org7956763}
+\item C: p = (int*)malloc(sizeof(int)*5);
+\label{sec:org788a8ed}
+\end{enumerate}
+\subsubsection{Note: remember to free memory}
+\label{sec:org2d80544}
+\begin{enumerate}
+\item C++: delete []p; if p is used for an array we use []
+\label{sec:orgd7c6da1}
+\item C: free(p)
+\label{sec:orgce8825e}
+\end{enumerate}
+\subsubsection{Access on heap;}
+\label{sec:org7046d09}
+\begin{enumerate}
+\item p[0] = 5;
+\label{sec:org1918c44}
+\end{enumerate}
+\section{Demo static dynamic array}
+\label{sec:org9113028}
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  int A[5] = {2,4,6,8,10};
+  int *p;
+  int i;
+
+  p=(int*)malloc(sizeof(int) * 5);
+  p[0] = 3;
+  p[1] = 5;
+  p[2] = 7;
+  p[3] = 9;
+  p[4] = 11;
+
+  for (int i = 0; i < 5 ; i++) {
+    printf("%d\t%d\n", A[i], p[i]);
+  }
+
+
+  return 0;
+}
+
+\end{verbatim}
+\section{Increase array size}
+\label{sec:orgf269816}
+\subsection{int *p = new int[5]}
+\label{sec:org9630c34}
+\subsection{Take another pointer: int *q = new int[10] => Create larger array separately}
+\label{sec:org04d54a4}
+\subsection{Copy p[i] onto q[i]}
+\label{sec:org946a2c0}
+\subsection{delete/free memory in p}
+\label{sec:org04e9742}
+\subsection{tells p to to point to q => both p and q points to the same larger array}
+\label{sec:org7f97578}
+\subsection{free q}
+\label{sec:org476fe7b}
+\subsection{demo}
+\label{sec:org4580116}
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  int *p, *q;
+
+  p = (int*)malloc(sizeof(int) * 5);
+  p[0] = 3;
+  p[1] = 5;
+  p[2] = 7;
+  p[3] = 9;
+  p[4] = 11;
+
+
+  /* for (int i = 0; i < 5 ; i++) { */
+  /* 	 printf("%d\n", p[i]); */
+  /* } */
+
+  q = (int*)malloc(sizeof(int) * 10);
+
+  for (int i = 0; i < 5 ; i++) {
+    q[i] = p[i];
+  }
+
+  free(p);
+  p = q;
+  q = NULL;
+
+  for (int i = 0; i < 5 ; i++) {
+    printf("%d\n", p[i]);
+  }
+
+  return 0;
+}
+
+\end{verbatim}
+\section{2D array}
+\label{sec:org1bc747a}
+\subsection{Method 1: int A[3][4] => 3 row, 4 col on STACK}
+\label{sec:org73898f7}
+\subsubsection{Memory allocates like a 1D array of 12 memory blocks}
+\label{sec:org8eefd24}
+\subsection{Method 2: int *A[3] => array of int pointers of size 3 on STACK, actual array on HEAP}
+\label{sec:orge66aded}
+\subsubsection{block 0 [ ] -> want array of size 4 here | | | | |}
+\label{sec:orgaefecfb}
+\subsubsection{block 1 [ ] -> want array of size 4 here | | | | |}
+\label{sec:orgb3d3e62}
+\subsubsection{block 2 [ ] -> want array of size 4 here | | | | |}
+\label{sec:orgd044398}
+\subsubsection{A[0] = new int[4] => create array of size 4 for block 0}
+\label{sec:org13e2d61}
+\subsubsection{A[1] = new int[4] and A[2] = new int[4]}
+\label{sec:org1238faf}
+\subsection{Method 3: int **A; everything on HEAP}
+\label{sec:org0ec94ba}
+\subsection{A = new int*[3] create array of int pointers (like above) on HEAP}
+\label{sec:org71a3dc9}
+\subsection{A[0] = new int[4] on HEAP}
+\label{sec:org736acb3}
+\subsection{A[1] = new int[4] on HEAP}
+\label{sec:orgf20cbb2}
+\subsection{A[2] = new int[4] on HEAP}
+\label{sec:orgf126ae3}
+\subsection{Demo : `\url{2darray.c}`}
+\label{sec:orgfec36c8}
+\section{1D Array in compilers}
+\label{sec:orge109874}
+\subsection{int x = 10; compiler allocates address for x and store 10 at that address}
+\label{sec:orgd8ef9b5}
+\subsection{Compiler memory to address}
+\label{sec:org2a2d924}
+\subsection{int A[5] = \{\ldots{}..\};}
+\label{sec:org508735f}
+\subsection{A[i] = Base index + index *  sizeof (data type)}
+\label{sec:orga6e7a40}
+\subsection{A[3] = L0 + 3 * 2}
+\label{sec:orgf64ad7d}
+\subsection{If index starts at 1:  A[i] = Base index + (index-1)*sizeof(data type)}
+\label{sec:org1d1c65c}
+\section{2D Array in compilers}
+\label{sec:orged834f9}
+\subsection{ROW MAJOR MAPPING}
+\label{sec:orgfdd37b2}
+\subsubsection{Elements store row by row in A[m x n]}
+\label{sec:orge23173d}
+\subsubsection{A = a00 a01 a02 a03 | a10 a11 a12 a13 | a20 a21 a22 a23 |}
+\label{sec:orgf787b33}
+\subsubsection{Say we access A[1][2] and say a00 has address 200}
+\label{sec:org45ddce1}
+\begin{enumerate}
+\item A[1][2] = 200 + [4 + 2]*sizeof(int)
+\label{sec:orgb818626}
+\end{enumerate}
+\subsubsection{In general A[i][j] = \textbf{L0 + [i*n+j]*sizeof(data type)}}
+\label{sec:org09be00a}
+\subsubsection{If index starts at 1:  A[i][j] = L0 + [(i-1)*n+(j-1)]*sizeof(data type)}
+\label{sec:org0925208}
+\subsection{COL MAJOR MAPPING}
+\label{sec:org4acadd2}
+\subsubsection{Map colum by colum}
+\label{sec:org984f44d}
+\subsubsection{A = a00 a10 a20 | a01 a11 a21 | a02 a12 a21 | a03 a13 a23 |}
+\label{sec:org46cddb4}
+\subsubsection{Say we want A[1][2]}
+\label{sec:org5a83983}
+\begin{enumerate}
+\item A[1][2] = 200 + [2 * 3 + 1]*sizeof(int)
+\label{sec:org75aa261}
+\end{enumerate}
+\subsubsection{In general, \textbf{A[i][j] = L0 + [j*m + i]*sizeof)(data type)}}
+\label{sec:org0dcc9bf}
+\section{4D Array}
+\label{sec:org9789f7a}
+\subsection{Type A[d1][d2][d3][d4]}
+\label{sec:orgcee052e}
+\subsection{Row major Add(A[i][i2][i3][i4]) = L0 + [i1*d2*d3*d4 + i2*d3*d4 + i3*d4 +i4]*sizeof(data)}
+\label{sec:org51aae94}
+\subsection{Col major Add(A[i1][i2][i3][i4]) = L0 + [i4*d1*d2*d3 + i3*d1*d2 + i2*d1 + i1]*sizeof(data)}
+\label{sec:org947b7e4}
+\section{For nD array}
+\label{sec:org07f3243}
+\subsection{Row major mapping: L0 + SUM\textsubscript{p} from 1 to n [  (i\textsubscript{p}) * product\textsubscript{q} = p + 1 to n of dq] * sizeof(datetype)}
+\label{sec:orgc522962}
+\subsubsection{O(n\textsuperscript{2})}
+\label{sec:orge91e876}
+\subsubsection{If rewrite by taking commons => O(n) --> \textbf{HOMER'S RULE}}
+\label{sec:orged2171b}
+\section{3D Array}
+\label{sec:orgbd12ba7}
+\subsection{int A[l][m][n]}
+\label{sec:org7663673}
+\subsection{Row major Addr(A[i][j][k]) = L0 + [i*m*n + j*n + k] + sizeof(datatype)}
+\label{sec:org254f186}
+\subsection{Colum major Addr(A[i][j][k]) = L0 + [k*m*l + j*l + i] + sizeof(datatype)}
+\label{sec:org6f35064}
+
+\section{Quiz}
+\label{sec:org91f5eb6}
+
+\subsection{1. A[1\ldots{}.10][1\ldots{}15] = A[m][n]}
+\label{sec:orgfd7cde9}
+
+\subsubsection{L0 = 100}
+\label{sec:org869c6bb}
+
+\subsubsection{Row major Addr(A[i][j]) = L0 + [(i-1)*n+(j-1)]*sizeof(data type)}
+\label{sec:org6d89b6a}
+
+\subsubsection{100 + [(i-1)*15+(j-1)]*1}
+\label{sec:orgc4c3d54}
+
+\subsubsection{100 + (15i- 15 + j - 1)*1}
+\label{sec:org0f1ce34}
+
+\subsubsection{100 + 15i - 15 + j - 1}
+\label{sec:org86954cd}
+
+\subsubsection{84 + 15 i + j}
+\label{sec:orge0161fa}
+
+\subsection{2. unsigned int x[4][3] = \{\ldots{}\ldots{}\}. Printf("\%u, \%u, \%u", x + 3, *(x+3), *(x+2)+3)}
+\label{sec:org61d7b66}
+
+\subsubsection{1 2 3}
+\label{sec:orgdea9f23}
+
+\subsubsection{\textbf{4} 5 6}
+\label{sec:org4aac7cd}
+
+\subsubsection{7 8 9}
+\label{sec:org9ef3cb3}
+
+\subsubsection{10 11 12}
+\label{sec:orgacb810a}
+
+\subsubsection{A = a00 a01 a02 | a03 a04 a05 | a06 a07 a08 | a09 a10 a11 |}
+\label{sec:orgbcdcd7a}
+
+\subsubsection{\%u, x + 3 => 2000 + (3*int) = > \textbf{2012 address}}
+\label{sec:org2494593}
+
+\subsubsection{\%u, *(x+3) => Gets value of address 2012  =  4}
+\label{sec:org528eec8}
+
+\subsubsection{\%u, \textbf{(x+2) + 3 => *6}}
+\label{sec:org0780c21}
+\subsubsection{testing: `\url{quizarray2.c}`}
+\label{sec:orgdc644ef}
+
+\subsection{4. ?X[?][?][?]}
+\label{sec:org2c9afaa}
+
+\subsubsection{t0 = i*1024}
+\label{sec:orgdec6dc6}
+
+\subsubsection{t1 = j + 32}
+\label{sec:orgb0b06c4}
+
+
+
+
+
+\section{Array ADT}
+\label{sec:org822225d}
+\subsection{Perform various operations on an array}
+\label{sec:orgca93f2e}
+\subsection{Data}
+\label{sec:org581bf6a}
+\subsubsection{Array space: say 10}
+\label{sec:orgf717c24}
+\subsubsection{Size}
+\label{sec:orgd2a6f4c}
+\begin{enumerate}
+\item static
+\label{sec:org05617c3}
+\begin{enumerate}
+\item int A[10]
+\label{sec:orge1405ff}
+\end{enumerate}
+\item dynamic
+\label{sec:org107222a}
+\begin{enumerate}
+\item int * A
+\label{sec:org27172d2}
+\item A = new int[size]
+\label{sec:orga8919f9}
+\end{enumerate}
+\end{enumerate}
+\subsubsection{length}
+\label{sec:org74ba7a8}
+\subsection{Operations}
+\label{sec:org5adcccd}
+\subsubsection{display: printf ("\%d", A[i]) in for loop}
+\label{sec:org5b61af1}
+\subsubsection{add/append}
+\label{sec:orgc1a0d39}
+\begin{enumerate}
+\item Add new element at \textbf{END} of the array
+\label{sec:org3bcc11f}
+\item A[Length] = x; length++;
+\label{sec:org4b760db}
+\end{enumerate}
+\subsubsection{insert}
+\label{sec:org978cf5e}
+\begin{enumerate}
+\item shifted forward to allow space
+\label{sec:orgdc5085b}
+\item start from last, copy prev last and \textbf{STOP} until reach insertion point
+\label{sec:orga255e7e}
+\item pseudocode
+\label{sec:orgf30bc5b}
+\begin{verbatim}
+for (i = length; i > index ; i--) {
+  A[i] = A[i-1];
+}
+
+A[index] = x;
+length++;
+
+\end{verbatim}
+\end{enumerate}
+\subsubsection{delete}
+\label{sec:orgad996c3}
+\begin{enumerate}
+\item delete(index)
+\label{sec:org89d4c21}
+\item x = A[index]
+\label{sec:orgd4bb591}
+\item shift to occupy blank space
+\label{sec:org244396c}
+\item pseudocode
+\label{sec:org1816499}
+\begin{verbatim}
+for (i = index; i < Length-1 ; i++) {
+  A[i] = A[i+1];
+ }
+Length--;
+\end{verbatim}
+\item Min time: 2 constant, Max time: n+2
+\label{sec:orga81ab73}
+\end{enumerate}
+\subsubsection{Linear search}
+\label{sec:org6b34310}
+\begin{enumerate}
+\item assume unique
+\label{sec:orgbacca22}
+\item Use a key
+\label{sec:orgaf262bb}
+\end{enumerate}
+\subsection{Demo: `\url{arrayADT.c}`}
+\label{sec:org4726e1e}
+\end{document}

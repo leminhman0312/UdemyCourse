@@ -1,0 +1,9 @@
+* INTRO TO STRING
+** ASCII CODES
+**** For English language
+**** A = 65, B = 66...., Z = 90
+**** a = 97, b = 98,....., z = 122
+**** 0 = 48, 1 = 49,....., 9 = 57
+**** Enter = 10, spacebar=13, esc = 27
+**** TOTAL 127 ASCII codes
+** UNICODES for non English language

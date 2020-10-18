@@ -1,0 +1,11 @@
+/* Find out a pair of number that adds up to k */
+
+
+#include <stdio.h>
+
+
+int main(){
+  int a[10] = {6,3,8,10,16,7,5,2,9,14};
+
+  return 0;
+}

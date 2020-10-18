@@ -1,0 +1,7 @@
+/* Find pair with sum in sorted array */
+
+
+int main(){
+  int a[10] = {1,3,4,5,6,8,9,10,12,14};
+  return 0;
+}
