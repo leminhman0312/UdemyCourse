@@ -6,4 +6,680 @@
 **** 0 = 48, 1 = 49,....., 9 = 57
 **** Enter = 10, spacebar=13, esc = 27
 **** TOTAL 127 ASCII codes
+**** 1 byte of memory
 ** UNICODES for non English language
+*** 2 bytes of memory
+*** 16 bits = 4 x 4bits
+** DECLARING CHARACTER 
+*** char temp; 
+*** temp = 'A'; only 1 character
+*** temp = 'AB'; not allowed
+*** 65 is stored in the memory
+** DECLARING CHARACTER ARRAY
+*** char x[5] = {'A', 'B', 'C', 'D','E'};
+*** char x[] = {'A', 'B','C','D','E'};
+*** char x[5] = {65,66,67,68,69};
+*** char x[5] = {'A','B'}; // store A|B|0|0|0
+*** char name[10] = {'J','o','h','n'};
+**** store John the rest are zero
+*** *NOTE*: end of string has NULL character, '\0'
+**** Without '\0', it's just an array of character 
+** DECLARARING STRING
+*** char name[10] = {'J','o','h','n','\0'};
+*** char name[] = {'J','o','h','n','\0'};
+*** char name[] = "John";
+**** *NOTE*: here '\0' is automatically included
+*** char *name = "John"
+**** this string is created in heap 
+**** indirectly accessible, accessed via pointer 
+* FUNCTIONS OF STRING
+** Length of a string
+*** count all character until reaches '\0'
+*** 
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char *S  = "welcome";
+	int i;
+	for (i = 0; S[i] != '\0' ; i++) {
+	}
+	printf("Length of a string %d\n", i);
+	return 0; // a comment
+      }
+    #+end_src
+
+    #+RESULTS:
+    : Length of a string 7
+** Change case of a string
+*** ascii A = 65, B = 66,...
+*** ascii a = 97, b = 98,...
+*** Upper - Lower = 32
+*** 
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char A[] = "WELCOME";
+	for (int i = 0; A[i] != '\0' ; i++) {
+	  A[i] = A[i] + 32;
+	}
+	printf("%s\n", A);
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : welcome
+** Toggle case of a string
+*** if upper, + 32
+*** if lower, -32
+*** 
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char A[] = "Welcome";
+	for (int i = 0; A[i] != '\0' ; i++) {
+	  /* check if upper case */
+	  if (A[i] >= 65 && A[i] <= 90) {
+	    /* change to lower case */
+	    A[i] = A[i] + 32; 
+	  }
+	  /* if lower case */
+	  else if (A[i] >= 'a' && A[i] <=122){
+	    /* change to upper case */
+	    A[i] = A[i] -32;
+	  }
+	}
+	printf("%s\n", A);
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : wELCOME
+** Counting vowels and consonant
+*** vowels: a e i o u  
+*** 
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char A[] = "How are you";
+	int vcount = 0, ccount = 0;
+	for (int i = 0; A[i] != '\0' ; i++) {
+	  if(A[i] == 'a' || A[i] == 'e' || A[i] == 'i' || A[i] == 'o' || A[i] == 'u' ||
+	     A[i] == 'A' || A[i] == 'E' || A[i] == 'I' || A[i] == 'O' || A[i] == 'U'){
+	    vcount++;
+	  }
+	  else if ((A[i]>= 65 && A[i] <= 90) || (A[i] >= 97 && A[i] <= 132)) {
+	    ccount++;
+	  }
+	}
+
+	printf("Vowels: %d\n", vcount);
+	printf("Consonants: %d\n", ccount);
+
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    | Vowels:     | 5 |
+    | Consonants: | 4 |
+** Counting words
+*** Count the spaces => no. of words = no.of spaces + 1
+*** 
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char A[] = "How are     u";
+	int i, word = 0;
+	for (i = 0; A[i] != '\0'  ; i++) {
+
+	  /* Check if previous is a space, if yes then do not count */
+	  if (A[i]== ' ' && A[i-1] != ' ') {
+	    word++;
+	  }
+	}
+	printf("No. of words = %d\n", word+1);
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : No. of words = 4
+** Validate a string
+*** only alphabet or numbers
+*** 
+    #+begin_src C
+      #include <stdio.h>
+
+      int validate(char *name){
+	int i;
+	for (i = 0; name[i] != '\0'  ; i++) {
+	  if (!(name[i] >= 65 && name[i] <= 90) &&
+	      !(name[i] >= 97 && name[i] <=122) &&
+	      !(name[i] >= 43 && name[i] <=57)) {
+	    return 0;
+	  }
+	}
+	return 1;
+      }
+
+      int main(){
+	char *name = "Man!123";
+	if (validate(name)) {
+	  printf("Valid string\n");
+	}
+	else {
+	  printf("Invalid string\n");
+	}
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : Invalid string
+** Reverse a string
+*** 
+    #+begin_src C
+      #include <stdio.h>
+
+      void firstMethod(char *A){
+	char B[7];
+	int i, j;
+
+	for (i = 0; A[i] != '\0'  ; i++) {
+	}
+
+	i = i -1;
+	for (j = 0; i >= 0  ; i--,j++) {
+	  B[j] = A[i];
+	}
+
+	B[j] = '\0';
+	printf("%s\n", B);
+      }
+
+
+      void secondMethod(char *A){
+	int i, j;
+	char temp;
+	for (j = 0; A[j] != '\0'  ; j++) {
+	}
+	j = j - 1;
+	for (i = 0; i < j ; i++,j--) {
+	  temp = A[i];
+	  A[i] = A[j];
+	  A[j] = temp;
+	}
+	printf("%s\n", A);
+      }
+
+
+      int main(){
+	char A[] = "hello";
+	/* firstMethod(A); */
+	secondMethod(A);
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : olleh
+** Compare strings and palindrome
+*** compare 2 strings
+    #+begin_src C
+      #include <stdio.h>
+      int main(){
+	char A[] = "Painter";
+	char B[] = "Painting";
+	int i, j;
+	for (i = 0, j = 0; A[i] != '\0' && B[j] != '\0'  ; i++,j++) {
+	  if (A[i] != B[j]) {
+	    break;
+	  }
+	}
+
+	if (A[i] == B[j]) {
+	  printf("Equal\n");
+	}
+	else if (A[i] < B[j]) {
+	  printf("Smaller\n");
+	}
+	else {
+	    printf("Greater\n");
+	}
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : Smaller
+*** palindrome
+**** if reverse string, remaines the same: eg. madam
+**** 
+     #+begin_src C
+       #include <stdio.h>
+
+       void secondMethod(char *A){
+	 int i, j;
+	 char temp;
+	 for (j = 0; A[j] != '\0'  ; j++) {
+	 }
+	 j = j - 1;
+	 for (i = 0; i < j ; i++,j--) {
+	   temp = A[i];
+	   A[i] = A[j];
+	   A[j] = temp;
+	 }
+       }
+
+       int palindromeSingle(char *A){
+	   int i, j;
+	   i = 0;
+	   j = 0;
+
+	   char left, right;
+
+    
+	   /* Find out stopping  index */
+	   for (j = 0; A[j] != '\0'  ; j++) {
+	   }
+	   j = j-1;
+    
+
+	   while (i != j){
+	     left = A[i];
+	     right = A[j];
+   
+	     if (left == right) {
+	       i++;
+	       j--;
+	     }
+	     else {
+	       break;
+	       return -1;
+	     }
+	   }
+
+	   return 1;
+
+       }
+
+
+       int main(){
+	 char A[] = "madam";
+	 char B[6];
+	 int i, j;
+
+	 /* FIRST METHOD: REVERSE + COMPARE */
+	 /* Copy A to B */
+	 /* for (int i = 0; i < 6  ; i++) { */
+	 /*   B[i] = A[i]; */
+	 /* } */
+
+	 /* /\* Reverse A *\/ */
+	 /* secondMethod(A); */
+
+	 /* /\* Compare A and B *\/ */
+	 /* for (i = 0, j = 0; A[i] != '\0' && B[j] != '\0'  ; i++,j++) { */
+	 /*   if (A[i] != B[j]) { */
+	 /*     break; */
+	 /*   } */
+	 /* } */
+
+	 /* /\* Checking last index stop *\/ */
+	 /* if (A[i] == B[j] ) { */
+	 /*   printf("Equal\n"); */
+	 /*   printf("A and B are palindrome\n"); */
+	 /* } */
+
+
+	 /* SECOND METHOD */
+	 int result = palindromeSingle(A);
+
+	 if (result == 1) {
+	   printf("It is a palindrome\n");
+	 }else {
+	   printf("It is NOT a palindrome\n");
+	 }
+
+	 return 0;
+       }
+
+     #+end_src
+
+     #+RESULTS:
+     : It is a palindrome
+** Finding duplicates in a string
+*** Compare with other letters
+    #+begin_src C
+      #include <stdio.h>
+
+      int main(){
+	char A[] = "abcaadfgddd";
+	int count = 0;
+
+	int length = 0;
+
+	int i, j;
+
+	for (i = 0; A[i] != '\0'  ; i++) {
+	}
+
+	length = i;
+	for (int i = 0; i < length-1 ; i++) {
+	  count = 1;
+	  if (A[i] != -1) {
+	    for (int j = i+1; j < length ; j++) {
+	      if (A[i] == A[j]) {
+		count++;
+		A[j] = -1;
+	      }
+	    }
+	    if (count > 1) {
+	      printf("%c appear %d times\n", A[i], count);
+	    }
+	  }
+	}
+
+
+
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    | a | appear | 3 | times |
+    | d | appear | 4 | times |
+
+*** Using Hashtable or counting
+    #+begin_src C
+      #include <stdio.h>
+
+      int main(){
+	char A[] = "abbafflff";
+	int Hash[26] = {0};		/* create all zeroes Hash array */
+	int i;
+
+	/* Scan and increase Hash[i] if needed */
+	for (i = 0; A[i] != '\0'  ; i++) {
+	  Hash[A[i]-97]++; 
+	}
+
+	/* Scan Hash[] to see repeating elements */
+	for (i = 0; i < 26 ; i++) {
+	  if (Hash[i] > 1) {
+	    printf("%c appearing %d times\n", i+97, Hash[i]);
+	  }
+	}
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    | a | appearing | 2 | times |
+    | b | appearing | 2 | times |
+    | f | appearing | 4 | times |
+
+*** Using Bits 
+**** say letter "H" takes 1 byte = 8 bit
+***** H [7][6][5][4][3][2][1][0] => Store from least significant  bit (left) to most significant bit (right)
+***** Each number can be represented as a binary
+***** [0][0][0][0][0][0][0][1] = number "1"
+***** [128][64][32][16][8][4][2][1] as the base
+**** We can shift the bits left:  H << 1 => shift 1 digit to the left
+**** AND: 
+***** Say a = 10 -> 1010 and b = 6 -> 0110 => *using last 4 bits*
+***** Then: a AND b -> 1010 + 0110 = *0010* which is *2*
+****** Note: true & true = true
+****** Note: false & false = false
+****** Note: false & true = true & false = false
+**** OR:
+***** Say a = 10 -> 1010 and b = 6 -> 0110 => *using last 4 bits*
+***** Then: a OR b -> 1010 + 0110 = *1110* which is *14*
+****** Note: true || true = true
+****** Note: false || false = false
+****** Note: false || true = true || false = true
+**** MASKING:
+***** Say H = [0][0][0][1][0][0][0][0] = 16 and a = [0][0][0][0][0][0][0][0] = 0
+***** Say we want to know if for H, bit at location 2 (3rd from the right) is 0 or 1
+****** Assign a = 1 -> a = [0][0][0][0][0][0][0][1]
+****** Shift a to the left to desire location in H -> a = a << 2
+****** a = [0][0][0][0][0][1][0][0]
+****** To know if H @ location 2 is 1 or 0, we do ADD:  H AND a
+******* all will return 0 => bit is 0 (off)
+******* if non zero => bit is 1 (on)
+**** MERGING:
+***** Similar to masking, but now say we want to *set* a particular bit to be 1 or 0
+***** Say we want to set the bit at location 2 to be 1 in H
+****** Assign a = 1
+****** a = a << 2
+****** Perform H OR a and store result in H -> H = H || a
+**** 
+
+      #+begin_src C
+	#include <stdio.h>
+	int main(){
+	  char A[] = "finding";
+	  long int H = 0; 		/* create a 32 bit or 4 byte long int, all 0 */
+	  /* Scan through A, for each alphabet: take ascii - 97 then set H[result] to be on or 1 */
+	  /* Next scan, if H[i] = 1 or on, then we have duplicate */
+	  /* Before setting H[result] to be 1. we need to check if it is ON or OFF => MASKING, ANDING*/
+
+	  long int x = 0;		/* to perform MASKING */
+
+	  for (int i = 0; A[i] != '\0' ; i++) {
+	    x = 1;
+	    x = x << A[i]-97;
+	    if ((x & H) > 0) {
+	      /* bit is already 1 or ON */
+	      printf("%c is duplicate\n",A[i]);
+	    }
+	    else {
+	      /* Bit is not ON or 1 */
+	      /* Set the bit in H to be 1 -> MERGING */
+	      H = x | H;
+	    }
+	  }
+
+
+
+	  return 0;
+	}
+
+      #+end_src
+
+      #+RESULTS:
+      | i | is | duplicate |
+      | n | is | duplicate |
+** Check if 2 strings are anagram
+*** Anagram definition: "medical" ~ "decimal"
+*** 1st condition: has to be equal size
+*** 2nd condition: same set of letters
+*** No duplicates 
+    #+begin_src C 
+      #include <stdio.h>
+
+      int main(){
+	char A[] = "qwerty";
+	char B[] = "ytrewq";
+	int i;
+	int Hash[26] = {0};
+
+	/* scan A , increment Hash */
+	for (i = 0; A[i] != '\0'  ; i++) {
+	  Hash[A[i]-97]++;
+	}
+
+
+	/* scan B , decrement Hash */
+	for (i = 0; B[i] != '\0' ; i++) {
+	  Hash[B[i]-97]--;
+	  if (Hash[B[i]-97] < 0) {
+	    printf("Not anagram\n");
+	    break;
+	  }
+	}
+
+	if (B[i] == '\0') {
+	  printf("It's anagram\n");
+	}
+
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : It's anagram
+*** With duplicates
+    #+begin_src C 
+      #include <stdio.h>
+
+      int main(){
+	char A[] = "verbose";
+	char B[] = "observe";
+	int i;
+	int Hash[26] = {0};
+
+	/* scan A , increment Hash */
+	for (i = 0; A[i] != '\0'  ; i++) {
+	  Hash[A[i]-97]++;
+	}
+
+
+	/* scan B , decrement Hash */
+	for (i = 0; B[i] != '\0' ; i++) {
+	  Hash[B[i]-97]--;
+	  if (Hash[B[i]-97] < 0) {
+	    printf("Not anagram\n");
+	    break;
+	  }
+	}
+
+	if (B[i] == '\0') {
+	  printf("It's anagram\n");
+	}
+
+
+
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    : It's anagram
+** Permutation of string
+*** Permutation: ABC => all arrangements: ACB, ABC, BAC, BCA, CBA, CAB
+*** for n => n! possible arragements
+*** trees-like branch: A->B->C then back A->C->B <=> *STATE SPACE TREE*
+*** Recursion
+    #+begin_src C 
+      #include <stdio.h>
+
+      void perm(char s[], int k){
+	static int A[10] = {0};
+	static char Res[10];
+	int i;
+	if (s[k] == '\0') {
+	  Res[k] = '\0';		/* marked the last elements in Res to be \0 for string */
+	  printf("%s\n", Res);
+	}
+	else {
+	  for (i = 0; s[i] != '\0'  ; i++) {
+	    /* check if alphabet available or not */
+	    if (A[i] == 0) {
+	      Res[k] = s[i];
+	      A[i] = 1;		/* marked as 1 alphabet NOT available */
+	      perm(s,k+1);
+	      A[i] = 0;		/* marked as 0 for RETURNING call */
+	    }
+	  }
+	}
+      }
+
+      int main(){
+	char s[] = "ABC";
+	perm(s,0);
+	return 0;
+      }
+
+    #+end_src
+
+    #+RESULTS:
+    | ABC |
+    | ACB |
+    | BAC |
+    | BCA |
+    | CAB |
+    | CBA |
+*** Test recursion file [[file:permRecursion.c][recursion]]
+*** Swapping
+    #+begin_src C 
+      #include <stdio.h>
+
+      void swap(char *x, char *y){
+	char temp;
+	temp = *x;
+	,*x = *y;
+	,*y = temp;
+      }
+
+
+
+      void perm2(char s[], int l, int h){
+	int i;
+
+	if (l == h) {
+	  printf("%s\n", s);
+	}
+
+	else {
+	  for (i = l; i <= h; i++) {
+	    swap(&s[l],&s[h]);
+	    perm2(s,l+1,h);
+	    swap(&s[l],&s[i]);
+	  }
+	}
+      }
+
+      int main(){
+	char s[] = "ABC";
+	perm2(s,0,2);
+	return 0;
+      }
+
+
+
+    #+end_src
+
+    #+RESULTS:
+    | CAB |
+    | CBA |
+    | BCA |
+    | BAC |
+    | ACB |
+    | ABC |
+
+*** Test swapping file [[file:permSwap.c][swap]]

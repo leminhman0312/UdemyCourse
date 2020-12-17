@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Term
+{
+  int coeff;
+  int exp;
+};
+
+struct Poly
+{
+  int n;
+  struct Term *t;
+};
+
+int main(){
+  struct Poly p;
+  printf("Enter no. of non zero terms\n");
+  return 0;
+}

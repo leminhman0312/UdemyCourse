@@ -1,0 +1,4 @@
+Polynomial Representation
+* P(x) = ax^3 + bx^2 + cx + ...
+* Collection of *COEFFICIENT* and *EXPONENTS*
+* C implementation: file:polynomial.c

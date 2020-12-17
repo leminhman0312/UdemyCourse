@@ -1,0 +1,96 @@
+* Special matrix
+** Diagonal
+*** Non zero on diagonal
+*** The rest are zero
+*** M[i,j] = 0 if i != j
+*** Representing diagonal as 2D array is *wasteful* because most elements are 0
+**** Only store *non-zero elements*
+*** Assume M(5 x 5)
+**** Take A = [3,7,4,9,6] to store diagonal non zero elements
+**** Accessing M[1,1] = A[0]
+**** Accessing M[2,2] = A[1]
+*** In general, if i == j then M[i,j] = A[i-1] = A[j-1]
+*** Implement in C: [[file:diagonalMatrix.c]]
+*** Implement in C++: [[file:diagonalMatrix.cpp]]
+
+** Lower Triangular
+*** square matrix, lower triangular is *NON-ZERO*, upper triangular is *ZERO*
+*** M[i,j] = 0 if i < j
+*** M[i,j] = non zero if i >=j
+*** No. of *non zero* elements = 1 + 2 + 3 + ... + n = n (n-1)/2
+*** No. of *zeros* element = n^2 - n(n-1)/2 = n(n-1)/2 
+*** Row major 
+**** Fill row by row
+**** index(A[i,j]) = [i*(i-1)/2] + (j-1)
+*** Column major
+**** Fill col by col
+**** index(A[i,j]) = [n+(n-1)+(n-2)+(n-(j-2))] + (i-j) = [n(j-1) - (j-2)(j-1)/2 ] + (i-j)
+*** Implement in C: [[file:lowerTriangular.c]]
+**** Row implementation: [[file:lowerTriangular.c::void setLowerTriROW][Row major mapping]]
+**** Col implementation: [[file:lowerTriangular.c::void setLowerTriCOL][Col major mapping]]
+*** Implement in C++: file:lowerTriangular.cpp
+** Upper Triangular
+*** M[i,j] = 0 if i > j 
+*** M[i,j] = non zero if i <= j
+*** No . of *non zero* = n(n+1)/2
+*** No . of *zero* = n(n-1)/2
+*** Row major, index(A[i,j]) = [n+n-1+n-2+..+n-(i-2)] + (j-i) = [ (i-1)n - ((i-2)(i-1))/2 ] + (j-1)
+*** Col major, index(A[i,j]) = [1+2+3+...(j-1)] + (i-1) = [j(j-1)/2] + (i-1)
+*** Implement in C: file:upperTriangular.c
+** Symmetric
+*** M[i,j] == M[j,i]
+*** sufficient to store elements in lower or upper triangle only
+*** implementation in C: file:symmetricMatrix.c
+** Tridiagonal
+*** Elements in main, lower and upper diagonal
+*** The rest are 0
+*** Main diagonal i - j = 0
+*** Lower digonal i - j = 1
+*** Upper diagonal i - j = -1 
+*** or |i-j| <= 1 then  M[i,j] is non zero
+*** else |i-j | > 1 then M[i,j] == 0
+*** Total number of non zero = n + n -1 + n - 1 = 3n-2 
+*** Let A be 1D array that stores non zero elements and of size 3n-2
+*** A = [{all Lower diagonal} | {all main Diagonal} | {all upper Diagonal}]
+**** if i - j = 1, index at i - 2 *LOWER DIAG*
+**** if i - j = 0, index at n-1 + i-1 *MAIN DIAG*
+**** if i - j = -1, index at 2n-1 + i-1 *UPPER DIAG*
+*** implementation in C: file:triDiagonal.c
+** Band
+*** more than one diagonal below the main diagonal
+** Toeplitz
+*** all non zeroes elements
+*** elements in diagonls are same
+**** M(5,5) = M(4,4) = M(3,3)
+**** M(5,4) = M(4,3)
+*** M[i,j] = M[i-1,j-1]
+*** Sufficient to store only 1st and 1st column
+*** Store n + n - 1 elements
+*** A = [{1st row}  | {1st column without 1st num}  ]
+*** Upper triangular belongs to 1st row in A
+*** Lower triangular belongs to 1st col in A
+*** if i <= j upper triangular  
+*** C implementation: file:toeplitz.c
+** Sparse
+*** more zero elements, very few non zero 
+*** Coordinate List/3 col representation
+**** For non zero element need: row, col, element itself
+**** Represent non zero as 3 col: ROW COL ELEMENT
+**** Leave 1st row blank to store info about sparse: how many row, how many column, how many non zero  
+**** Addition: 
+***** Create horizontal table: ROW, COL, ELEM => 1st entries are for info about the sparse
+***** Say you have A and B both sparse => do the step above for both A and B
+***** For C the result, loop i in A and j in B, if row and col dont match , dont add, just include
+***** Whichever comes first (row is less for eg), copy then move i / j accordingly
+***** If they match, add them
+**** C implementation: file:sparse3ColRep.c
+**** C++ implementation: file:sparse3colrep.cpp
+*** Compressed Sparse Row
+**** Represent using 3 arrays
+**** A = list of non zero elements
+**** IA = [0, how many elemen in 1st row, how many elem in 2nd row and plus number in previous row]
+***** take the *cumulative* of the number of non zero
+**** JA = [what colum element in A is in]
+
+
+
