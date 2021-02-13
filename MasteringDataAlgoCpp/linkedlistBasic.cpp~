@@ -1,0 +1,67 @@
+#include <iostream>
+
+class Node
+{
+public:
+  int data;
+  Node *next;
+};
+
+class LinkedList
+{
+private:
+  Node *first;
+public:
+  LinkedList(){first = NULL}; 	// constructor
+  LinkedList(int A[], int n); 	// constructor
+  ~LinkedList(); 		// destructor
+
+
+  // FUNCTIONS
+  void Display();
+  void Insert(int index, int x);
+  void Delete(int index);
+  void Length();
+
+  
+};
+
+LinkedList::LinkedList(int A[], int n){
+  Node *last, *t;
+  int i = 0;
+
+  first = new Node;
+  first->data = A[0];
+  first->next=NULL;
+  last = first;
+
+  for (i = 1; i < n ; i++) {
+    t = new Node;
+    t->data = A[i];
+    t->next = NULL;
+    last->next = t;
+    last = t;
+  }
+}
+
+// Destructor, delete entire linkedlist
+LinkedList::~LinkedList(){
+  Node *p = first;
+  while (first != NULL) {
+    first = first->next;
+    delete p;
+    p = first;
+  }
+}
+
+
+
+
+LinkedList::Delete(int index){
+  
+}
+
+int main(){
+  
+  return 0;
+}
