@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+
+\PYG{c+cm}{/* traverse till the last node and stop */}
+\PYG{k}{while} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{second}\PYG{p}{;} 		\PYG{c+cm}{/* point last node to first node of the other list */}
+\PYG{n}{second} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;} 			\PYG{c+cm}{/* delete/free/NULL the extra pointer */}
+\end{Verbatim}

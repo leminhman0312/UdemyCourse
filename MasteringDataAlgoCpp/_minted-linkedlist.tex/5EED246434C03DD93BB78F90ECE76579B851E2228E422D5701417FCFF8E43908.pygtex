@@ -1,0 +1,24 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void} \PYG{n+nf}{Insert} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{pos}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)\PYGZob{}}
+  \PYG{n}{Node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{o}{*}\PYG{n}{p}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{pos} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+    \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+    \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+    \PYG{n}{first} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{pos} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+    \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{pos}\PYG{l+m+mi}{\PYGZhy{}1} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{p} \PYG{o}{!=} \PYG{n+nb}{NULL} \PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+      \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+      \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

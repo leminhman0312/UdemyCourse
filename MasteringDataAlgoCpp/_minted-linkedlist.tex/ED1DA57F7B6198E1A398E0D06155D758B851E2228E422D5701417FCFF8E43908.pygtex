@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{Head}\PYG{p}{;}
+\PYG{k}{while} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{!=} \PYG{n}{Head}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{Head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{Head}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{;}
+\PYG{n}{delete} \PYG{n}{Head}\PYG{p}{;}
+\PYG{n}{Head} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+\end{Verbatim}

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void} \PYG{n+nf}{Display}\PYG{p}{(}\PYG{n}{Node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{)\PYGZob{}}
+  \PYG{k}{static} \PYG{k+kt}{int} \PYG{n}{flag} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}		\PYG{c+cm}{/* so only 1 creation of int flag */}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{n}{Head} \PYG{o}{||} \PYG{n}{flag} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{flag} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{);}
+    \PYG{n}{Display}\PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{flag} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* Create array of size m */}
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{A}\PYG{p}{[}\PYG{n}{m}\PYG{p}{];}
+
+\PYG{c+cm}{/* For each row, we create a new node */}
+\PYG{n}{A}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+\end{Verbatim}

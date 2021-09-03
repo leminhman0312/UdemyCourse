@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n+nc}{Node}
+\PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{data}\PYG{p}{;}
+  \PYG{k}{struct} \PYG{n+nc}{Node} \PYG{o}{*}\PYG{n}{next}\PYG{p}{;}		\PYG{c+cm}{/* self referential structure */}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()\PYGZob{}}
+  \PYG{k}{struct} \PYG{n+nc}{Node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{;}
+  \PYG{n}{p} \PYG{o}{=} \PYG{p}{(}\PYG{k}{struct} \PYG{n+nc}{Node}\PYG{o}{*}\PYG{p}{)}\PYG{n}{malloc}\PYG{p}{(}\PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n+nc}{Node}\PYG{p}{));}
+  \PYG{c+cm}{/* For C++ */}
+  \PYG{c+cm}{/* p = new Node */}
+
+
+  \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{;} 		\PYG{c+cm}{/* assign 10 to DATA */}
+  \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}			\PYG{c+cm}{/* or NULL, meaning next pointer points to nothing */}
+
+  \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

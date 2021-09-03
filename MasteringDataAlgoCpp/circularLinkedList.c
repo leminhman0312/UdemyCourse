@@ -13,8 +13,6 @@ void create(int A[], int n){
   Head=(struct Node*)malloc(sizeof(struct Node));
   Head->data = A[0];
   Head->next = Head;
-
-
   last = Head;
   for (i = 1; i < n ; i++) {
     t = (struct Node*)malloc(sizeof(struct Node));

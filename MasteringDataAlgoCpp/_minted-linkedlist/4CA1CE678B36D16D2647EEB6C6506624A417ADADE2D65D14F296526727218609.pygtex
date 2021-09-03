@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* constant time */}
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;} 		\PYG{c+cm}{/* create new node */}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;} 			\PYG{c+cm}{/* assign new node data */}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;} 		\PYG{c+cm}{/* t points to first pointer, making t comes before first */}
+\PYG{n}{first} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;} 			\PYG{c+cm}{/* old \PYGZdq{}first\PYGZdq{} point to t , t is now first */}
+\end{Verbatim}

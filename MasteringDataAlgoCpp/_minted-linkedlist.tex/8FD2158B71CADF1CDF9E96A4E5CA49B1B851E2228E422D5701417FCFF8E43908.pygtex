@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* taking O(n) time and O(1) space */}
+\PYG{k+kt}{int} \PYG{n+nf}{count}\PYG{p}{(}\PYG{k}{struct} \PYG{n+nc}{Node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{)\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{c} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{c}\PYG{o}{++}\PYG{p}{;}
+    \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{c}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

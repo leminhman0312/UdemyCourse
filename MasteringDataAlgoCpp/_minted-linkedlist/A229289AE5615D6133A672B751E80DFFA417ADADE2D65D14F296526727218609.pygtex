@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{isLoop}\PYG{p}{(}\PYG{n}{Node} \PYG{o}{*}\PYG{n}{first}\PYG{p}{)\PYGZob{}}
+  \PYG{n}{Node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{,} \PYG{o}{*}\PYG{n}{q}\PYG{p}{;}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{q} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+  \PYG{k}{do}
+    \PYG{p}{\PYGZob{}}
+      \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{n}{q} \PYG{o}{=} \PYG{n}{q}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{q} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{q} \PYG{o}{=} \PYG{n}{q}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+      \PYG{k}{else} \PYG{p}{\PYGZob{}}
+	\PYG{n}{q} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}} \PYG{k}{while} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{n+nb}{NULL} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{q} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{);}
+
+
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{==} \PYG{n}{q}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+
+
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

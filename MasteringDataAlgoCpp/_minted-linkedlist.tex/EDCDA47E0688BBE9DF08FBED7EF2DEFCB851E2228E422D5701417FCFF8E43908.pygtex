@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+
+\PYG{c+cm}{/* To reach the node before the insertion */}
+\PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{pos}\PYG{l+m+mi}{\PYGZhy{}1} \PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{c+cm}{/* Modify links */}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}		\PYG{c+cm}{/* inserted node should point to the node on the RIGHT (p\PYGZhy{}\PYGZgt{}next) */}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev} \PYG{o}{=} \PYG{n}{p}\PYG{p}{;}			\PYG{c+cm}{/* inserted node should point to the node on the LEFT (p) */}
+
+
+\PYG{c+cm}{/* for node on the RIGHT, its prev must point to the inserted node */}
+\PYG{c+cm}{/* Must check if next is available, in case we insert at last then next is NULL */}
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{!} \PYG{o}{=}\PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;} 			\PYG{c+cm}{/* node on the LEFT should point to the inserted node */}
+\end{Verbatim}

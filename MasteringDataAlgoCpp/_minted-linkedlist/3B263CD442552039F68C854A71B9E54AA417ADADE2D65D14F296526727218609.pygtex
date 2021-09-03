@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void} \PYG{n+nf}{InsertLast}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)\PYGZob{}}
+  \PYG{n}{Node} \PYG{o}{*}\PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+  \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+  \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+
+  \PYG{c+cm}{/* no node in list */}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{first} \PYG{o}{==} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{first} \PYG{o}{=} \PYG{n}{last} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+    \PYG{n}{last} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

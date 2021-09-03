@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* bring a pointer p upon given index */}
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+
+\PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{pos}\PYG{l+m+mi}{\PYGZhy{}1} \PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;} 	\PYG{c+cm}{/* LEFT node points to RIGHT node, skip CURRENT */}
+
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}		\PYG{c+cm}{/* if RIGHT node exists */}
+  \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev}\PYG{p}{;}  	\PYG{c+cm}{/* RIGHT node points to LEFT node, skip CURRENT */}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{;}
+\PYG{n}{delete} \PYG{n}{p}\PYG{p}{;}
+\end{Verbatim}

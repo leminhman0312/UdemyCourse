@@ -1,0 +1,38 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* Create 2 pointers for the merged list */}
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{third}\PYG{p}{,} \PYG{o}{*}\PYG{n}{last}\PYG{p}{;}
+
+\PYG{c+cm}{/* First loop */}
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{\PYGZlt{}} \PYG{n}{second}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{third} \PYG{o}{=} \PYG{n}{last} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+  \PYG{n}{first} \PYG{o}{=} \PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+  \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+\PYG{k}{else} \PYG{p}{\PYGZob{}}
+  \PYG{n}{third}\PYG{o}{=}\PYG{n}{last}\PYG{o}{=}\PYG{n}{second}\PYG{p}{;}
+  \PYG{n}{second} \PYG{o}{=} \PYG{n}{second}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+  \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{k}{while} \PYG{p}{(}\PYG{n}{first} \PYG{o}{!=} \PYG{n+nb}{NULL} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{second} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{\PYGZlt{}} \PYG{n}{second}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+    \PYG{n}{last} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+    \PYG{n}{first} \PYG{o}{=} \PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+    \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{second}\PYG{p}{;}
+    \PYG{n}{last} \PYG{o}{=} \PYG{n}{second}\PYG{p}{;}
+    \PYG{n}{second} \PYG{o}{=} \PYG{n}{second}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+    \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{first} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+\PYG{k}{else} \PYG{p}{\PYGZob{}}
+  \PYG{n}{last}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{second}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

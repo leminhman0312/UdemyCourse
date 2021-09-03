@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* insert between left and right node */}
+\PYG{c+cm}{/* O(N) max time, O(1) min time */}
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{t} \PYG{o}{=} \PYG{n}{new} \PYG{n}{Node}\PYG{p}{;}
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;} 			\PYG{c+cm}{/* start temporary pointer from first */}
+\PYG{n}{pos} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{p}{;} 			\PYG{c+cm}{/* position to insert after */}
+
+\PYG{c+cm}{/* moving p till reach left node */}
+\PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{pos}\PYG{l+m+mi}{\PYGZhy{}1} \PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+
+\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}		\PYG{c+cm}{/* t next pointer points to the right node */}
+\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;} 			\PYG{c+cm}{/* p\PYGZhy{}\PYGZgt{}next points to t, so t is between left and right */}
+\end{Verbatim}

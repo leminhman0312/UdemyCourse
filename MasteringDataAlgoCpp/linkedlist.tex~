@@ -1,0 +1,999 @@
+% Created 2021-08-21 Sat 16:09
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\author{Max Le}
+\usepackage{hyperref}
+\usepackage{minted}
+\date{Saturday 21-08-2021}
+\title{Linkedlist Operations (Singly and Doubly)}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={Linkedlist Operations (Singly and Doubly)},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.4.4)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Theory}
+\label{sec:org188193b}
+\subsection{Array vs Linkedlist}
+\label{sec:org2d9aa8d}
+\subsubsection{Array}
+\label{sec:orgb18875f}
+\begin{enumerate}
+\item fixed size
+\label{sec:orgbdf88c6}
+\item create on stack e.g. int A[5]
+\label{sec:org8688375}
+\item create on heap e.g. int *p = new int[5];
+\label{sec:orgdb9baee}
+\end{enumerate}
+\subsubsection{Linkedlist}
+\label{sec:org891bdf7}
+\begin{enumerate}
+\item Allocate memories in node:  pointer to current elemen | pointer to next element
+\label{sec:org2818c10}
+\item Create on heap
+\label{sec:org455879b}
+\end{enumerate}
+\subsection{LinkedList basic}
+\label{sec:orgeed5931}
+\subsubsection{collections of nodes, each node has "Data" + "Pointer to next Node"}
+\label{sec:org1867955}
+\subsubsection{"Head" points to first node}
+\label{sec:org9d814bc}
+\subsubsection{Addresses may not be side by side, unlike array}
+\label{sec:org72ad4a2}
+\subsubsection{To create a node, need: DATA and POINTER to a NODE (NODE type)}
+\label{sec:orgc52db34}
+\subsubsection{A node structure:  DATA | NEXT}
+\label{sec:org6c739fc}
+\subsubsection{For C language:}
+\label{sec:org8fd63fd}
+\begin{minted}[breaklines=true,breakanywhere=true,frame=single,backgroundcolor=\color{lightgray}]{c}
+struct Node
+{
+  int data;
+  struct Node *next;		/* self referential structure */
+};
+
+int main(){
+  struct Node *p;
+  p = (struct Node*)malloc(sizeof(struct Node));
+  /* For C++ */
+  /* p = new Node */
+
+
+  p->data = 10; 		/* assign 10 to DATA */
+  p->next = 0;			/* or NULL, meaning next pointer points to nothing */
+
+  return 0;
+}
+\end{minted}
+\subsubsection{How to display a linkedlist}
+\label{sec:org03f00f9}
+\begin{enumerate}
+\item Iterative
+\label{sec:org394724b}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+struct Node *p = first;		/* set a pointer to point to first node */
+
+while (p != 0) {
+  printf("%d\n", p->data);	/* print the data */
+  p = p ->next;			/* move p to next node */
+ }
+\end{minted}
+\item Recursive
+\label{sec:orgfb799a9}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void displayRecursive(struct Node *p){
+  if (p != NULL) {
+    printf("%d\n", p->data);
+    displayRecursive(p->next);
+  }
+}
+\end{minted}
+\end{enumerate}
+\subsection{Singular Linked List}
+\label{sec:orga6100bb}
+\subsubsection{How to count node in linked list}
+\label{sec:org00eebdf}
+\begin{enumerate}
+\item Iterative
+\label{sec:orgff2bc94}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* taking O(n) time and O(1) space */
+int count(struct Node *p){
+  int c = 0;
+  while (p != NULL) {
+    c++;
+    p = p->next
+  }
+  return c;
+}
+\end{minted}
+\item Recursive
+\label{sec:orgde83ea7}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time O(n) Space O(n) */
+int count (struct Node *p){
+  if (p == NULL) {
+    return 0;
+  }
+  else {
+    return count(p->next) + 1;
+  }
+}
+\end{minted}
+\end{enumerate}
+\subsubsection{How to sum all elements in linked list}
+\label{sec:org53d785b}
+\begin{enumerate}
+\item Iterative
+\label{sec:org923b06a}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time O(n) Space O(1)*/
+int Add(struct Node *p){
+  int sum = 0;
+  while (p != NULL) {
+    sum = sum + p->data;
+    p=p->next;
+  }
+  return sum;
+}
+\end{minted}
+\item Recursion
+\label{sec:orgd144ce2}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time, Space O(n) */
+int Add(struct Node *p){
+  if (p == NULL) {
+    return 0;
+  }
+  else {
+    return Add(p->next)+p->data;
+  }
+}
+\end{minted}
+\end{enumerate}
+\subsubsection{Find max element in linked list}
+\label{sec:org27631be}
+\begin{enumerate}
+\item Iterative
+\label{sec:org1b15e73}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int max(struct Node *p){
+  int m = -32768;		/* min integer */
+  while (p != NULL) {
+    if (p->data > m) {
+      m = p->data;
+    }
+    p = p->next;
+  }
+  return m;
+}
+\end{minted}
+\item Recursive
+\label{sec:orgb6bf35a}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int max(struct Node *p){
+
+  int x = 0;
+
+  if (p == NULL) {
+    return MIN_INT;
+  }
+  else {
+    x = max(p->next);
+    if (x > p->data) {
+      return x;
+    }
+    else {
+      return p->data;
+    }
+  }
+}
+\end{minted}
+
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int max(struct Node *p){
+  int x = 0;
+  if (p == 0) {
+    return MIN_INT;
+  }
+  x = max(p->next);
+  return x > p->data ? x : p->data;
+}
+\end{minted}
+\end{enumerate}
+\subsubsection{Searching (linear search)}
+\label{sec:org7df0750}
+\begin{enumerate}
+\item Iterative
+\label{sec:org65bbcd2}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *search (struct Node *p, int key){
+  while (p != NULL) {
+    if (key == p->data) {
+      return(p);
+    }
+    p = p->next;
+  }
+  return NULL;
+}
+\end{minted}
+\item Recursive
+\label{sec:orgadf8fa5}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *search(struct Node *p, int key){
+  if (p == NULL) {
+    return NULL;
+  }
+
+  if (key == p->data) {
+    return p;
+  }
+
+  return search(p->next, key);
+}
+\end{minted}
+\item Move found to head
+\label{sec:org8f9c9fe}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *search(struct Node *p, int key){
+  Node *q = NULL; 		/* previous pointer */
+
+  while (p != NULL) {
+    if (key == p->data) {
+      q->next = p->next;
+      p->next = first;
+      first = p;
+    }
+    q = p;
+    p = p->next;
+  }
+}
+\end{minted}
+\end{enumerate}
+\subsubsection{Inserting}
+\label{sec:org7ea1643}
+\begin{enumerate}
+\item Insert \textbf{BEFORE} first node
+\label{sec:org74334d3}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* constant time */
+Node *t = new Node; 		/* create new node */
+t->data = x; 			/* assign new node data */
+t->next = first; 		/* t points to first pointer, making t comes before first */
+first = t; 			/* old "first" point to t , t is now first */
+\end{minted}
+\item Insert \textbf{AFTER} given position
+\label{sec:orgac8a621}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* insert between left and right node */
+/* O(N) max time, O(1) min time */
+Node *t = new Node;
+t->data = x;
+p = first; 			/* start temporary pointer from first */
+pos = 4; 			/* position to insert after */
+
+/* moving p till reach left node */
+for (i = 0; i < pos-1 ; i++) {
+  p = p->next;
+ }
+
+t->next = p->next;		/* t next pointer points to the right node */
+p->next = t; 			/* p->next points to t, so t is between left and right */
+
+
+\end{minted}
+\item Combine
+\label{sec:orgf1a6d0c}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void Insert (int pos, int x){
+  Node *t, *p;
+  if (pos == 0) {
+    t = new Node;
+    t->data = x;
+    t->next = first;
+    first = t;
+  }
+  else if (pos > 0) {
+    p = first;
+    for (i = 0; i < pos-1 && p != NULL ; i++) {
+      p = p->next;
+    }
+
+    if (p != NULL) {
+      t = new Node;
+      t->data = x;
+      t->next = p->next;
+      p->next = t;
+    }
+  }
+}
+\end{minted}
+\item Special case: Insert at last only
+\label{sec:org1950cde}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void InsertLast(int x){
+  Node *t = new Node;
+  t->data = x;
+  t->next = NULL;
+
+  /* no node in list */
+  if (first == NULL) {
+    first = last = t;
+  }
+  else {
+    last->next = t;
+    last = t;
+  }
+}
+\end{minted}
+\item Insert in a \textbf{SORTED} linked list, at a \textbf{SORTED} position
+\label{sec:org22b06ce}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time: min O(1) max O(n) */
+p = first;
+q = NULL;
+
+while (p != NULL && p->data < x) {
+  q = p;
+  p = p->next;
+ }
+
+t = new Node;
+t->data = x;
+t->next = q->next;
+q->next = t;
+\end{minted}
+\end{enumerate}
+\subsubsection{Deleting}
+\label{sec:org98836c8}
+\begin{enumerate}
+\item Delete first node
+\label{sec:orgbe114c4}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time O(1)  */
+Node *p = first;		/* arbitray pointer p poins to first */
+first=first->next;		/* move first to point to next node */
+delete p; 			/* delete the original first */
+
+\end{minted}
+\item Delete at given position
+\label{sec:org6724d73}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time min O(1) max O(n) */
+Node *p = first;
+Node *q = NULL;
+
+for (i = 0; i < pos-1 ; i++) {
+  q = p;
+  p = p->next;
+ }
+
+q->next = p->next;
+delete p;
+
+\end{minted}
+\end{enumerate}
+\subsubsection{Check if linkedlist is sorted}
+\label{sec:orga612917}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Time O(n) max O(1) min */
+int x = -32768;
+Node *p = first;
+
+while (p != NULL) {
+  if (p->data < x) {
+    return false;
+  }
+  x = p->data;
+  p = p->next;
+ }
+return true;
+\end{minted}
+\subsubsection{Remove duplicate}
+\label{sec:org0bbc41c}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *p = first;
+Node *q = first->next;
+while (q != NULL) {
+  if (p->data != q->data) {
+    p = q;
+    q = q->next;
+  }
+  else {
+    p->next = q->next;
+    delete q;
+    q = p->next;
+  }
+ }
+\end{minted}
+
+\subsubsection{Reverse a linkedlist}
+\label{sec:orgd3ba80a}
+\begin{enumerate}
+\item Interchange elements
+\label{sec:orgcedfb8b}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = first;
+i = 0;
+/* Copy to extra array */
+while (p != NULL) {
+  A[i] = p->data;
+  p = p->next;
+  i++;
+ }
+p = first;
+i--;
+
+/* Reverse copy back to list */
+while (p != NULL) {
+  p->data = A[i];
+  i--;
+  p = p->next;
+ }
+\end{minted}
+\item Reversing links
+\label{sec:org38c2fde}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Setup 3 sliding pointers */
+p = first;
+q = NULL;
+r = NULL;
+
+while (p != NULL) {
+  r = q;
+  q = p;
+  p = p->next;
+
+  q->next = r;
+ }
+
+/* Update first */
+first = q;
+\end{minted}
+\item Recursion
+\label{sec:orgc71cdc4}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void Reverse(Node *q, Node *p){
+  if (p != NULL) {
+    Reverse(p, p->next);
+    p->next = q;
+  }
+  else {
+    first = q;
+
+  }
+}
+\end{minted}
+\end{enumerate}
+
+\subsubsection{Joining/Append 2 linked list}
+\label{sec:org2a8258b}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = first;
+
+/* traverse till the last node and stop */
+while (p->next != NULL) {
+  p = p->next;
+ }
+
+p->next = second; 		/* point last node to first node of the other list */
+second = NULL; 			/* delete/free/NULL the extra pointer */
+\end{minted}
+\subsubsection{Merging 2 linkedlist}
+\label{sec:org3cc4b6c}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* Create 2 pointers for the merged list */
+Node *third, *last;
+
+/* First loop */
+if (first->data < second->data) {
+  third = last = first;
+  first = first->next;
+  last->next = NULL;
+ }
+else {
+  third=last=second;
+  second = second->next;
+  last->next = NULL;
+ }
+
+while (first != NULL && second != NULL) {
+  if (first->data < second->data) {
+    last->next = first;
+    last = first;
+    first = first->next;
+    last->next = NULL;
+  }
+  else {
+    last->next = second;
+    last = second;
+    second = second->next;
+    last->next = NULL;
+  }
+ }
+
+if (first != NULL) {
+  last->next = first;
+ }
+else {
+  last->next = second;
+ }
+\end{minted}
+\subsubsection{Check for LOOP in}
+\label{sec:org553bdb0}
+\begin{enumerate}
+\item LOOP: Last node points to some other nodes
+\label{sec:org0d14b9e}
+\item LINEAR: Last node points to NULL
+\label{sec:org2b9114a}
+\begin{enumerate}
+\item 
+\label{sec:org3468b48}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+int isLoop(Node *first){
+  Node *p, *q;
+  p = q = first;
+  do
+    {
+      p = p-next;
+      q = q->next;
+      if (q != NULL) {
+	q = q->next;
+      }
+      else {
+	q = NULL;
+      }
+    } while (p != NULL && q != NULL);
+
+
+  if (p == q) {
+    return true;
+  }
+  else {
+    return false;
+  }
+
+
+}
+\end{minted}
+\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Circular linkedlist}
+\label{sec:org1258533}
+\begin{enumerate}
+\item Last node points to first node
+\label{sec:orgdb0c083}
+\item or a collection of nodes that are circularly connected
+\label{sec:orgfcf091c}
+\item Use HEAD instead of FIRST
+\label{sec:org82e8dc6}
+\item Two representations:
+\label{sec:org6428b8b}
+\begin{enumerate}
+\item HEAD/1st node -> 2nd node -> 3rd node -> 4th node -> back to HEAD/1st node
+\label{sec:org0e4e808}
+\item HEAD -> 1st -> 2nd -> 3rd -> 4th -> back to 1st
+\label{sec:org01cabb5}
+\end{enumerate}
+\item How to display
+\label{sec:org8129988}
+\begin{enumerate}
+\item Loop display
+\label{sec:org2cc9cf6}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void Display(Node *p){
+  do
+    {
+      printf("%d\n", p->data);
+      p = p->next;
+    } while (p != Head);
+
+}
+\end{minted}
+\item Recursive display
+\label{sec:orge9bb328}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+void Display(Node *p){
+  static int flag = 0;		/* so only 1 creation of int flag */
+  if (p != Head || flag = 0) {
+    flag = 1;
+    printf("%d\n", p->data);
+    Display(p->next);
+  }
+  flag = 0;
+}
+\end{minted}
+\end{enumerate}
+\item How to insert
+\label{sec:org1862497}
+\begin{enumerate}
+\item After Head
+\label{sec:org7d22396}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *t;
+Node *p = Head;
+
+for (i = 0; i < pos-1 ; i++) {
+  p = p->next;
+ }
+
+t = new Node;
+t->data = x;
+t->next = p->next;
+p->next = t;
+\end{minted}
+\item Before Head
+\label{sec:orgb0fb1ee}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *t = new Node;
+t->data = x;
+t->next = Head;
+
+Node *p = Head;
+while (p->next != Head) {
+  p = p->next;
+}
+
+p->next = t;
+Head = t;
+\end{minted}
+\end{enumerate}
+\item Delete
+\label{sec:orge0e34a7}
+\begin{enumerate}
+\item Delete from Given Position
+\label{sec:orgf50dac3}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = Head;
+for (i = 0; i < pos-2 ; i++) {
+  p = p->next;
+ }
+
+q = p->next;
+p->next = q->next;
+x = q->data;
+delete q;
+
+\end{minted}
+\item Delete Head
+\label{sec:orgb276f15}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = Head;
+while (p->next != Head) {
+  p = p->next;
+ }
+
+p->next = Head->next;
+x = Head->data;
+delete Head;
+Head = p->next;
+\end{minted}
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Doubly Linked List}
+\label{sec:org2702d5e}
+\subsubsection{a node has pointer to \textbf{NEXT} node and \textbf{PREVIOUS} node}
+\label{sec:org9cc4f85}
+\subsubsection{Structure in C:}
+\label{sec:orgbeae361}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+struct Node
+{
+  struct Node *prev;
+  int data;
+  struct Node *next;
+};
+\end{minted}
+\subsubsection{Insertion}
+\label{sec:orged99e4f}
+\begin{enumerate}
+\item Before first
+\label{sec:org4ad0cf1}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *t = new Node;
+t->data = x;
+
+/* Modify links */
+t->prev = NULL;
+t->next = first;
+first->prev = t;
+
+/* Rename new first */
+first = t;
+\end{minted}
+\item After given index min O(1) max O(n)
+\label{sec:org8bfc383}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+Node *t = new Node;
+t->data = x;
+
+/* To reach the node before the insertion */
+for (i = 0; i < pos-1 ; i++) {
+  p = p->next
+ }
+
+/* Modify links */
+t->next = p->next;		/* inserted node should point to the node on the RIGHT (p->next) */
+t->prev = p;			/* inserted node should point to the node on the LEFT (p) */
+
+
+/* for node on the RIGHT, its prev must point to the inserted node */
+/* Must check if next is available, in case we insert at last then next is NULL */
+if (p->next ! =NULL) {
+  p->next->prev = t;
+ }
+
+p->next = t; 			/* node on the LEFT should point to the inserted node */
+
+\end{minted}
+\end{enumerate}
+\subsubsection{Delete}
+\label{sec:org9416cb7}
+\begin{enumerate}
+\item Delete 1st node
+\label{sec:org1a2683c}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = first;
+first = first->next;
+x = p->data;
+delete p;
+
+if (first != NULL) {
+  first->prev = NULL;
+ }
+\end{minted}
+\item Delete from given index
+\label{sec:org92cf7fa}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+/* bring a pointer p upon given index */
+p = first;
+
+for (i = 0; i < pos-1 ; i++) {
+  p = p->next;
+ }
+
+p->prev->next = p->next; 	/* LEFT node points to RIGHT node, skip CURRENT */
+
+if (p->next != NULL) {		/* if RIGHT node exists */
+  p->next->prev = p->prev;  	/* RIGHT node points to LEFT node, skip CURRENT */
+ }
+
+x = p->data;
+delete p;
+\end{minted}
+\end{enumerate}
+\subsubsection{Reverse}
+\label{sec:orgfe344f8}
+\begin{enumerate}
+\item Display
+\label{sec:org365cdb3}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = first;
+
+while (p != NULL) {
+  printf("%d\n", p->data);
+  p = p->next
+
+ }
+
+\end{minted}
+\item Reverse
+\label{sec:org514f0bd}
+\begin{minted}[breaklines=true,breakanywhere=true]{c}
+p = first;
+
+while (p != NULL) {
+  temp = p->next;
+  p->next = p->prev;
+  p->prev = temp;
+  p = p->prev;
+ }
+
+/* for last node, bring first there */
+if (p!= NULL && p->next == NULL) {
+  first = p;
+ }
+\end{minted}
+\end{enumerate}
+\subsubsection{Circular}
+\label{sec:orgc973910}
+\begin{enumerate}
+\item Insert
+\label{sec:orgdd40f73}
+\item Display
+\label{sec:org93a341c}
+\end{enumerate}
+\section{Comparing different linkedlists}
+\label{sec:orge39145e}
+\subsection{Space: Doubly takes double the amount of pointers in Singly}
+\label{sec:orgae2f500}
+\subsection{Insert: constant time for Linear Singly, Linear Doubly, Circular Doubly.  Nth time for Circular Singly}
+\label{sec:org057505c}
+\section{Array vs Linkedlist}
+\label{sec:org9327b2c}
+\subsection{Creation: array in stack or heap, LL is always on heap}
+\label{sec:org41a1f58}
+\subsection{Size: array fixed, LL can grow until heap is full}
+\label{sec:org2c6cf01}
+\subsection{LL takes extra space}
+\label{sec:org0efe269}
+\subsection{Array access directly (faster), LL access sequentially (slower)}
+\label{sec:orgdfc6d1b}
+\subsection{Data movement in array is more expensive}
+\label{sec:org74c44e3}
+\section{Student challenge}
+\label{sec:orge94dee1}
+\subsection{Find middle node of LL}
+\label{sec:org85e9560}
+\subsubsection{1st solution}
+\label{sec:org7e38fec}
+\begin{enumerate}
+\item find length of LL => say 7
+\label{sec:org180bbac}
+\item reach middle node => 7/2 \textasciitilde{} 4
+\label{sec:orgc8f866d}
+\item move the pointer 4-1 times
+\label{sec:orgc92d559}
+\end{enumerate}
+\subsubsection{2nd solution}
+\label{sec:orgc04e277}
+\begin{enumerate}
+\item use 2 pointers, 1 move 2 space, other move 1 space
+\label{sec:org48b36f1}
+\end{enumerate}
+\subsubsection{3rd solution}
+\label{sec:orgfec8380}
+\begin{enumerate}
+\item push each node to a stack
+\label{sec:org0c21aca}
+\item pop out the node at stack number floor(stack size / 2)
+\label{sec:orgaac1ffd}
+\end{enumerate}
+\subsection{Find intersection of 2 LL}
+\label{sec:org4fa773f}
+\subsubsection{Eg: LL1->LL3 and LL2->LL3 => Both LL1 and LL2 has LL3 as common. For example:}
+\label{sec:org29f7f14}
+\begin{enumerate}
+\item LL1: 8->6->3->9->10->4->2->12
+\label{sec:org838d72c}
+\item LL2: 20->30->40->10->4->2->12
+\label{sec:org68af20d}
+\end{enumerate}
+\subsubsection{We need to find the starting common point, i.e. block \textbf{10}?}
+\label{sec:orgc11522f}
+\begin{enumerate}
+\item We traverse the 1st LL or 2nd LL till the end.
+\label{sec:org202c343}
+\item Then from end, we traverse back, if the previous block is different,
+\label{sec:org731c1e9}
+\item then current block is \textbf{intersection point}
+\label{sec:orgc1d0c6b}
+\item But cannot traverse back in Single LL?? Use Stack
+\label{sec:orgc762d2c}
+\begin{enumerate}
+\item Traverse each LL, store address in a stack
+\label{sec:orgf853402}
+\item Then compare two stacks, whenever the address differ, that location is the \textbf{intersection}
+\label{sec:orgf84b9f0}
+\end{enumerate}
+\item Suppose our LL1 and LL2 has the following address
+\label{sec:org915f4d6}
+\begin{enumerate}
+\item LL1: length 8
+\label{sec:org73cb981}
+\begin{center}
+\begin{tabular}{rr}
+Data & Address\\
+\hline
+8 & 100\\
+6 & 110\\
+3 & 130\\
+9 & 150\\
+\textbf{10} & \textbf{200}\\
+4 & 220\\
+2 & 240\\
+12 & 260\\
+\end{tabular}
+\end{center}
+\item LL2: length 7
+\label{sec:org8d0f374}
+\begin{center}
+\begin{tabular}{rr}
+Data & Address\\
+\hline
+20 & 300\\
+30 & 310\\
+40 & 330\\
+\textbf{10} & \textbf{200}\\
+4 & 220\\
+2 & 240\\
+12 & 260\\
+\end{tabular}
+\end{center}
+\item Record address in a stack. \textbf{Note}: first address goes to bottom:
+\label{sec:org559ea07}
+\begin{center}
+\begin{tabular}{rr}
+Stack 1 & Stack 2\\
+\hline
+260 & 260\\
+240 & 240\\
+220 & 220\\
+\textbf{200} & \textbf{200}\\
+150 & 330\\
+130 & 310\\
+110 & 300\\
+100 & \\
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item Comparing the two stacks, pops out an address, if same, delete
+\label{sec:orgeb49955}
+\item Keep track of the previous address that we pop out.
+\label{sec:orge9a5e6f}
+\begin{center}
+\begin{tabular}{rr}
+Stack 1 & Stack 2\\
+\hline
+260 & 260\\
+240 & 240\\
+220 & 220\\
+200 & 200\\
+\textbf{150} & \textbf{330}\\
+130 & 310\\
+110 & 300\\
+100 & \\
+\end{tabular}
+\end{center}
+\item Addresses \textbf{150} and \textbf{330} are different => The intersection is the node before
+\label{sec:org8189714}
+\item i,e, node with address 200, which contains data \textbf{10}
+\label{sec:org58ef2f1}
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\subsection{Sparse matrix using LL}
+\label{sec:org14aac92}
+\subsubsection{Suppose we have the following matrix:}
+\label{sec:orgf73515e}
+\[
+\begin{matrix}
+ 0 & 0 & 0 & 0 & 8 & 0 \\
+ 0 & 0 & 0 & 7 & 0 & 0 \\
+ 5 & 0 & 0 & 0 & 9 & 0 \\
+ 0 & 0 & 0 & 0 & 0 & 3 \\
+ 6 & 0 & 0 & 4 & 0 & 0 \\
+\end{matrix}
+\]
+
+
+\section{Codes}
+\label{sec:orgb479ae8}
+\subsection{Implement in C: \url{linkedlistBasic.c}}
+\label{sec:org6477faa}
+\end{document}

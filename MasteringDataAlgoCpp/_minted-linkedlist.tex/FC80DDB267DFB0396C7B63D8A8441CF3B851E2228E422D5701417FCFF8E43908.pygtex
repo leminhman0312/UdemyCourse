@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n+nc}{Node} \PYG{o}{*}\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}		\PYG{c+cm}{/* set a pointer to point to first node */}
+
+\PYG{k}{while} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{);}	\PYG{c+cm}{/* print the data */}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p} \PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}			\PYG{c+cm}{/* move p to next node */}
+ \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

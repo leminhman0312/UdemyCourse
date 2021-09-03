@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+\PYG{n}{first} \PYG{o}{=} \PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{;}
+\PYG{n}{delete} \PYG{n}{p}\PYG{p}{;}
+
+\PYG{k}{if} \PYG{p}{(}\PYG{n}{first} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prev} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

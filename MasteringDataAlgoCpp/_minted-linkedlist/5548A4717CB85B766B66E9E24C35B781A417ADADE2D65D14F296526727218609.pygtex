@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* Time O(n) max O(1) min */}
+\PYG{k+kt}{int} \PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{\PYGZhy{}32768}\PYG{p}{;}
+\PYG{n}{Node} \PYG{o}{*}\PYG{n}{p} \PYG{o}{=} \PYG{n}{first}\PYG{p}{;}
+
+\PYG{k}{while} \PYG{p}{(}\PYG{n}{p} \PYG{o}{!=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data} \PYG{o}{\PYGZlt{}} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{x} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{data}\PYG{p}{;}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{;}
+ \PYG{p}{\PYGZcb{}}
+\PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
+\end{Verbatim}
