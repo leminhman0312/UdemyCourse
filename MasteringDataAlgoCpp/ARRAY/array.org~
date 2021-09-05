@@ -509,21 +509,5 @@
 	}
      #+end_src
 **** Analysis: Theta(m + n) 
-*** Union
-**** UNSORTED
-***** A(m) and B(n) array
-***** Copy to C (if unique)
-***** m is time for searching
-***** total time: m + (m*n) = n + (n*n) = O(n^2)
-**** SORTED
-***** total time O(m+n) = O(n+n) = O(2n) = O(n)
-*** Intersection
-**** Total time O(n^2) unsorted
-**** Total time O(n)
-*** Difference
-**** Total time O(n^2) unsorted
-**** Total time O(n)
-*** Set membership
-**** If element belongs to a set or not
 
 ** Demo: `file:arrayADT.c`
