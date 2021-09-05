@@ -1,0 +1,79 @@
+* Indirect recursion
+** A->B->C->A
+** Pseudocode:
+   #+begin_src C
+     void A(int n){
+       if (condition) {
+	 B(n-1);
+       }
+     }
+
+     void B(int n){
+       if (condition) {
+	 A(n-1);
+       }
+     }
+   #+end_src
+** Example
+   #+begin_src C
+     #include <stdio.h>
+     void funcA(int n){
+       if (n > 0) {
+	 printf("%d\n", n);
+	 funcB(n-1);
+       }
+     }
+     
+     void funcB(int n){
+       if (n > 1) {
+	 printf("%d\n", n);
+	 funcA(n/2);
+       }
+     }
+
+     int main(){
+       funcA(20);
+       return 0;
+     }
+   #+end_src
+
+   #+RESULTS:
+   | 20 |
+   | 19 |
+   |  9 |
+   |  8 |
+   |  4 |
+   |  3 |
+   |  1 |
+* Nested recursion
+** passed parameter as a recursive call
+** pseudocode
+   #+begin_src C
+     void fun(int n){
+       if (condition) {
+	 fun(fun(n-1));
+        }
+     }
+   #+end_src
+** example
+   #+begin_src C
+     #include <stdio.h>
+     int fun(int n){
+       if (n > 100) {
+	 return n-10;
+       }
+       else {
+	 return fun(fun(n+1));
+       }
+     }
+
+     int main(){
+       printf("%d\n", fun(95));
+       return 0;
+     }
+
+   #+end_src
+   
+   #+RESULTS:
+
+   
