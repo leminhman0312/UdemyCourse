@@ -1,0 +1,221 @@
+* About queue
+** Logical
+** FIFO principal
+** 2 ends: front end and rear end
+   |-------+---+---+---+------|
+   | front |   |   |   | rear |
+   |-------+---+---+---+------|
+* ADT of queues
+** Space for storing elements 
+** Front end deletion -> need a pointer
+** Rear end deletion -> need a pointer
+* Can be implemented using: *array* or *linkedlist*
+** Using array
+*** Take array of fixed size
+*** Insertion: O(1)
+*** Deletion: after delete, need to move other elements to occupy ~ O(N) *drawback!*
+**** improvement: use 2 pointers ~ 1 for insertion, 1 for deletion
+**** pseudocode:
+     _initially_:
+     front = rear = -1
+     queue is empty
+
+     _process_:
+     move rear pointer and insert elements
+     when delete, move front pointer and delete.
+     Note that front pointer is in front of the first element, while rear pointer is on top of the element. 
+*** Enqueue and Dequeue
+**** Empty when F = R
+     |---+---+---+-------|
+     |   |   |   | front |
+     |   |   |   | rear  |
+     |---+---+---+-------|
+**** Full when R = size -1
+*** Implementation
+    #+begin_src C
+      struct Queue
+      {
+	int size;
+	int front;
+	int rear;
+	int *Q;
+      };
+
+      void enqueue(struct Queue *q, int x){
+	/* check if the queue is empty */
+	if (q->rear == q->size-1) {
+	  printf("Queue is full\n");
+	}
+	else {
+	  q->rear++;
+	  q->Q[q->rear] = x;
+	}
+      }
+
+      int dequeue(struct Queue *q){
+	int x = -1;
+
+	if (q->front == q->rear) {
+	  printf("Queue is empty\n");
+	}
+	else {
+	  q->front++;
+	  x = q->Q[q->front];
+	}
+	return x;
+      }
+
+      void display(struct Queue q){
+	for (int i = q.front+1; i <= q.rear ; i++) {
+	  printf("%d\n", q.Q[i]);
+	}
+	printf("\n");
+
+      }
+
+      int main(){
+	struct Queue q;
+	printf("Enter the size\n");
+	scanf("%d", &q.size);
+	q.Q = (int*)malloc(sizeof(int) * q.size);
+	q.front = q.rear = -1;
+	return 0;
+      }
+
+    #+end_src
+*** Drawback and Solutions using array
+**** Drawback
+***** cannot reuse spaces of deleted element.
+***** every location can only be used once
+***** if (front = rear aka queue is empty), cant insert elements => empty = full...
+**** Solutions
+***** use resetting pointers: if queue is empty, bring front/rear to beginning, reinitialize them to -1
+      Eg. deleting 2, 4 ,6 and 8 in this queue
+      |---+---+---+------------|
+      | +2+ | +4+ | +6+ |          8 |
+      |   |   |   | rear,front |
+      |---+---+---+------------|
+
+      
+      When deleting 8, now front=rear => queue is empty. Move front, rear to beginning, set to -1
+      
+      |-------------------+---+---+---|
+      |                   |   |   |   |
+      | rear = front = -1 |   |   |   |
+      |-------------------+---+---+---|
+      
+      
+****** this does not guarantee reuse of space, i.e. only works if queue is empty
+****** what if queue is not empty and we want to insert more element? 
+***** circular queue
+****** Basic idea
+       Initially FR and R start at 0
+      
+       |-------+---+---+---+---+---+---+---|
+       |       |   |   |   |   |   |   |   |
+       |-------+---+---+---+---+---+---+---|
+       |     0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+       |-------+---+---+---+---+---+---+---|
+       | FR, R |   |   |   |   |   |   |   |
+
+       Fill element, move R only. FR stay the same
+
+       |-------+----+----+---+---+---+---+---|
+       | Value |    | 10 | 8 | 9 | 6 | 3 | 2 |
+       |-------+----+----+---+---+---+---+---|
+       | Index |  0 |  1 | 2 | 3 | 4 | 5 | 6 |
+       |-------+----+----+---+---+---+---+---|
+       |       | FR |    |   |   |   |   | *R* |
+
+       Delete an element: move FR to that space and delete.
+       Here, we delete "10" and "8"
+
+       |-------+---+---+----+---+---+---+---|
+       | Value |   |   |    | 9 | 6 | 3 | 2 |
+       |-------+---+---+----+---+---+---+---|
+       | Index | 0 | 1 |  2 | 3 | 4 | 5 | 6 |
+       |-------+---+---+----+---+---+---+---|
+       |       |   |   | *FR* |   |   |   | R |
+
+       Now, suppose we want to insert a new element. We move R to 0 and insert that
+       new element there, e.g. inserting 15 
+
+       |-------+----+---+----+---+---+---+---|
+       | Value | *15* |   |    | 9 | 6 | 3 | 2 |
+       |-------+----+---+----+---+---+---+---|
+       | Index | 0  | 1 |  2 | 3 | 4 | 5 | 6 |
+       |-------+----+---+----+---+---+---+---|
+       |       | *R*  |   | *FR* |   |   |   |   |
+
+       We can insert one more, say 20. Move R and insert
+      
+       |-------+----+----+----+---+---+---+---|
+       | Value | 15 | *20* |    | 9 | 6 | 3 | 2 |
+       |-------+----+----+----+---+---+---+---|
+       | Index |  0 | 1  |  2 | 3 | 4 | 5 | 6 |
+       |-------+----+----+----+---+---+---+---|
+       |       |    | *R*  | *FR* |   |   |   |   |
+
+       Note here we cannot insert another element. Because if we do, FR = R which means queue is empty, but it is not...
+
+       |-------+----+----+----+---+---+---+---|
+       | Value | 15 | 20 | *25* | 9 | 6 | 3 | 2 |
+       |-------+----+----+----+---+---+---+---|
+       | Index |  0 |  1 | 2  | 3 | 4 | 5 | 6 |
+       |-------+----+----+----+---+---+---+---|
+       |       |    |    | *R*  |   |   |   |   |
+       |       |    |    | *FR* |   |   |   |   |
+
+
+       _Note_:
+       - if an array has N size, we can only store N-1 size
+       - circular behavior, once reach end, next means go back to beginning. 
+
+       To obtain circular values, we use *mod* operation.
+       Rear = (Rear + 1) % size
+       |------+-----------+-------|
+       | REAR | FORMULA   | VALUE |
+       |------+-----------+-------|
+       |    0 | (0+1) % 7 |     1 |
+       |    1 | (1+1) % 7 |     2 |
+       |    2 | (2+1) % 7 |     3 |
+       |    3 | (3+1) % 7 |     4 |
+       |    4 | (4+1) % 7 |     5 |
+       |    5 | (5+1) % 7 |     6 |
+       |    *6* | (6+1) % 7 |     *0* | 
+       #+TBLFM: $3=($1+1) % 7
+       We can see how the last row, we are back at 0
+****** Implementation
+******* Enqueue (constant time O(1))
+	#+begin_src C
+	  void enqueue(struct Queue *q, int x){
+	    if (((q->Rear+1) % q->size) == q->front) {
+	      printf("Queue is full\n");
+	    }
+	    else {
+	      /* caculate the next Rear position using formula */
+	      q->Rear = (q->Rear+1) % q->size;
+
+	      /* insert the element at the calculated Rear position */
+	      q->Q[q->Rear] = x;
+	    }
+	  }
+	#+end_src
+******* Dequeue (constant time O(1))
+	#+begin_src C
+	  int dequeue(struct Queue *q){
+	    int x = -1;
+	    if (q->front == q->Rear) {
+	      printf("Queue is empty\n");
+	    }
+	    else {
+	      q->front = (q->front + 1) % q->size;
+	      x = q->Q[q->front];
+	    }
+	    return x;
+	  }
+	#+end_src
+	
+
+* Code
+** Basic queue using array with 2 pointers: [[file:2pointersArray.c][C code]], [[file:2pointersArray.cpp][C++ code]]

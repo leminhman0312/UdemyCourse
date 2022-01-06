@@ -1,0 +1,224 @@
+#+TITLE: Stack Data Structure and Applications
+#+DATE:{{{time(%A %d-%m-%Y)}}} 
+#+LATEX_HEADER: \author{Max Le}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{minted}
+
+* Basic intro
+** Stack = set of elements that follow *LIFO* _Last In First Out_
+** Reversible 
+** Conver between Recursion and Iteration
+* Abstract Data Type (ADT) of Stack
+** Operations
+*** push
+*** pop
+*** peek(index)
+*** stackTop()
+*** isEmpty()
+*** isFull()
+** Can be stored as:
+*** Array
+*** LinkedList
+* Stack using Array
+** Say an array of size = 5, [10,15, 7]
+** need top pointer S
+** Delete/Insertion *always* from top
+** A typical stack structure
+   #+begin_src c
+     struct stack
+     {
+       int size;
+       int top;
+       int *s; 			/* pointer to an array */
+     };
+
+     int main(){
+       struct Stack st;
+       st.size = 5;
+       st.s = new int[st.size];
+       st.top = -1; 			/* before 1st element */
+       return 0;
+     }
+
+   #+end_src
+** Push
+*** Increment top pointer, insert a value
+    #+begin_src C
+      void push(stack *st, int x){
+	/* check stack full */
+	if (st->top == st->size-1) {
+	  printf("Stack overflow\n");
+	}
+	else {
+	  st->top++; 			/* move top to next location */
+	  st->s[st->top] = x
+	}
+      }
+    #+end_src
+** Pop
+*** Take out value, decrease top pointer
+    #+begin_src C
+      int pop(stack *st){
+
+	int x = -1;
+	if (st->top == -1) {
+	  printf("Stack underflow\n");
+	}
+	else {
+	  x = st->s[st->top];
+	  st->top--;
+	}
+
+	return x;
+
+      }
+    #+end_src
+** Peak
+*** Find out element at position
+    #+begin_src C
+      int peak(stack st, int pos){
+	int x = awe
+	if (top-pos + 1 < 0){
+	  printf("Invalid Position");
+	}
+	else {
+	  x=st.s[st.top-pos+1]
+	}
+
+	return x;
+
+
+      }
+
+
+    #+end_src
+* Stack using LL 
+** Basic LL structure: data, next pointer
+** Insertion/Deletion follows LIFO
+** Insertion/Deletion from same end
+** Empty: when top = null
+** Full: create new Node, if cant create (new node = NULL) then FULL 
+** Push
+   #+begin_src C
+     void push(int x){
+       Node *t = new Node;
+       if (t == NULL) {
+	 printf("Stack overflow\n");
+       }
+       else {
+	 t->data = x;
+	 t->next = top;
+	 top = t; 
+       }
+    
+     }
+   #+end_src
+** Pop
+   #+begin_src C
+     int pop(){
+       Node *p;
+       int x = -1;
+       if (top == NULL) {
+	 printf("Stack is empty\n");
+       }
+       else {
+	 p = top;
+	 top = top->next;
+	 x = p->data;
+	 free(p);
+       }
+       return x;
+     }
+   #+end_src
+** Peak
+   #+begin_src C
+     int Peek(int pos){
+       Node *p = top;
+
+       /* move p till reach desire node and not NULL */
+       for (i = 0; p!= NULL && i < pos-1 ; i++) {
+	 p = p->next;
+       }
+
+       if (p != NULL) {
+	 return p->data;
+       }
+       else {
+	 return -1;
+       }
+
+     }
+   #+end_src
+* Parenthesis matching
+** Find out if the parens are balanced
+** Use a stack: if open, push to stack. Ignore other.
+   When see a close parens, pop open parens in stack
+** Eg: ((a+b)*(c-d))
+   |---|
+   |   |
+   | ( |
+   | ( |
+** If stack is empty, then parens match.  Else, unbalanced parens.
+* Parenthesis matching (different types of parens)
+** Eg. {([a+b]*[c-d]/e}
+** Scan using stack, when pop => has to match that particular brackets style 
+** Need to compare after pop, i.e [ matches ], not ( and ]
+* Postfix conversion
+** What is postfix
+*** infix: operand operator operand e.g. a + b 
+*** prefix: operator operand operand  e.g. +ab
+*** postfix: operand operand operator e.g. ab+
+** Why postfix
+*** easier to scan
+** Precedence
+   | symbol | precedence |
+   |--------+------------|
+   | +/-    |          1 |
+   | *,/    |          2 |
+   | ()     |          3 |
+   |--------+------------|
+*** Eg: a + b * c 
+**** must parenthesize this: a + (b*c) => (a + (b*c))
+**** prefix: (a + [*bc]) => +a*bc
+**** postfix: (a + [bc*]) => abc*+
+
+*** Eg: a + b + c * d
+**** prefix: a + b + [*cd] => [+ab]+[*cd] => ++ab*cd
+**** postfix: a + b + [cd*] => [ab]+[cd*] => ab+cd*+
+** Associtivity (direction of parenthesize)
+*** Table
+    | Symbol               | Precedence | Associtivity |
+    |----------------------+------------+--------------|
+    | +,-                  |          1 | L-R          |
+    | *,/                  |          2 | L-R          |
+    | ^ (power)            |          3 | R-L          |
+    | other unity operator |          4 | R-L          |
+    | ( ) bracket          |          5 | L-R          |
+    |----------------------+------------+--------------|
+** Infix to Postfix Conversion
+*** Eg. a + b * c - d / e 
+*** Take a stack, and a postfix (array?)
+**** scan the expression: if operand->postfix, if operator->stack 
+**** push to stack if current operator has _higher_ precedence 
+**** pop out of stack if current operator has _smaller_ precedence
+**** STUDENT CHALLENGE: expression has *parentheses* and *R-L operator* (eg. power)
+** Evaluation of Postfix
+*** given 3 * 5 + 6 / 2 - 4 in infix
+*** in postfix: 35*62/+4-
+*** push numbers to stack, as soon as you reach an operator, pop both numbers in stack out
+    *beware* the order.  Eg.
+    stack:
+    |---|
+    | 8 |
+    | 4 |
+    if next symbol is "+", then pop out 8 first, then 4, so operation = 8 / 4 = 2
+    then push this "2" to stack
+*** requires only 1 scan
+* Code
+** stack using array: [[file:stackBasicArray.c][stackBasicArray]]
+** stack using LL: [[file:stackBasicLL.c][C code]],[[file:stackBasicLL.cpp][C++ code]]  
+** check parens matching: [[file:parensMatching.c][C code]]
+** check parens matching (different bracket style): [[file:parensMatchingStyle.c][C code]]
+** convert infix to postfix:[[file:infix_postfix.c][C code]] 
+** infix to postfix parens:[[file:infix_postfix_paren.c][C code]] 
+** evaluation of postfix: [[file:eval_postfix.c][C Code]]

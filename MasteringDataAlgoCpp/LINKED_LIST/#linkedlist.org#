@@ -1,0 +1,863 @@
+#+TITLE:Linkedlist Operations (Singly and Doubly)
+#+DATE:{{{time(%A %d-%m-%Y)}}} 
+#+LATEX_HEADER: \author{Max Le}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{minted}
+* Theory
+** Array vs Linkedlist
+*** Array
+**** fixed size
+**** create on stack e.g. int A[5]
+**** create on heap e.g. int *p = new int[5];
+*** Linkedlist
+**** Allocate memories in node:  pointer to current elemen | pointer to next element
+**** Create on heap
+** LinkedList basic
+*** collections of nodes, each node has "Data" + "Pointer to next Node"
+*** "Head" points to first node 
+*** Addresses may not be side by side, unlike array
+*** To create a node, need: DATA and POINTER to a NODE (NODE type)
+*** A node structure:  DATA | NEXT
+*** For C language:
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C 
+      struct Node
+      {
+	int data;
+	struct Node *next;		/* self referential structure */
+      };
+
+      int main(){
+	struct Node *p;
+	p = (struct Node*)malloc(sizeof(struct Node));
+	/* For C++ */
+	/* p = new Node */
+
+
+	p->data = 10; 		/* assign 10 to DATA */
+	p->next = 0;			/* or NULL, meaning next pointer points to nothing */
+
+	return 0;
+      }
+    #+end_src
+*** How to display a linkedlist
+**** Iterative
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C 
+       struct Node *p = first;		/* set a pointer to point to first node */
+
+       while (p != 0) {
+	 printf("%d\n", p->data);	/* print the data */
+	 p = p ->next;			/* move p to next node */
+	}
+     #+end_src
+**** Recursive
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       void displayRecursive(struct Node *p){
+	 if (p != NULL) {
+	   printf("%d\n", p->data);
+	   displayRecursive(p->next);
+	 }
+       }
+     #+end_src
+** Singular Linked List
+*** How to count node in linked list
+**** Iterative
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* taking O(n) time and O(1) space */
+       int count(struct Node *p){
+	 int c = 0;
+	 while (p != NULL) {
+	   c++;
+	   p = p->next
+	     }
+	 return c;
+       }
+     #+end_src
+**** Recursive
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Time O(n) Space O(n) */
+       int count (struct Node *p){
+	 if (p == NULL) {
+	   return 0;
+	 }
+	 else {
+	   return count(p->next) + 1;
+	 }
+       }
+     #+end_src
+*** How to sum all elements in linked list
+**** Iterative
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Time O(n) Space O(1)*/
+       int Add(struct Node *p){
+	 int sum = 0;
+	 while (p != NULL) {
+	   sum = sum + p->data;
+	   p=p->next;
+	 }
+	 return sum;
+       }
+     #+end_src
+**** Recursion
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Time, Space O(n) */
+       int Add(struct Node *p){
+	 if (p == NULL) {
+	   return 0;
+	 }
+	 else {
+	   return Add(p->next)+p->data;
+	 }
+       }
+     #+end_src
+*** Find max element in linked list
+**** Iterative 
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       int max(struct Node *p){
+	 int m = -32768;		/* min integer */
+	 while (p != NULL) {
+	   if (p->data > m) {
+	     m = p->data;
+	   }
+	   p = p->next;
+	 }
+	 return m;
+       }
+     #+end_src
+**** Recursive
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       int max(struct Node *p){
+
+	 int x = 0;
+
+	 if (p == NULL) {
+	   return MIN_INT;
+	 }
+	 else {
+	   x = max(p->next);
+	   if (x > p->data) {
+	     return x;
+	   }
+	   else {
+	     return p->data;
+	   }
+	 }
+       }
+     #+end_src
+
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       int max(struct Node *p){
+	 int x = 0;
+	 if (p == 0) {
+	   return MIN_INT;
+	 }
+	 x = max(p->next);
+	 return x > p->data ? x : p->data;
+       }
+     #+end_src
+*** Searching (linear search)
+**** Iterative
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       Node *search (struct Node *p, int key){
+	 while (p != NULL) {
+	   if (key == p->data) {
+	     return(p);
+	   }
+	   p = p->next;
+	 }
+	 return NULL;
+       }
+     #+end_src
+**** Recursive
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       Node *search(struct Node *p, int key){
+	 if (p == NULL) {
+	   return NULL;
+	 }
+
+	 if (key == p->data) {
+	   return p;
+	 }
+
+	 return search(p->next, key);
+       }
+     #+end_src
+**** Move found to head 
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       Node *search(struct Node *p, int key){
+	 Node *q = NULL; 		/* previous pointer */
+
+	 while (p != NULL) {
+	   if (key == p->data) {
+	     q->next = p->next;
+	     p->next = first;
+	     first = p;
+	   }
+	   q = p;
+	   p = p->next;
+	 }
+       }
+     #+end_src
+*** Inserting
+**** Insert *BEFORE* first node
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* constant time */
+       Node *t = new Node; 		/* create new node */
+       t->data = x; 			/* assign new node data */
+       t->next = first; 		/* t points to first pointer, making t comes before first */
+       first = t; 			/* old "first" point to t , t is now first */
+     #+end_src
+**** Insert *AFTER* given position
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* insert between left and right node */
+       /* O(N) max time, O(1) min time */
+       Node *t = new Node;
+       t->data = x;
+       p = first; 			/* start temporary pointer from first */
+       pos = 4; 			/* position to insert after */
+
+       /* moving p till reach left node */
+       for (i = 0; i < pos-1 ; i++) {
+	 p = p->next;
+	}
+
+       t->next = p->next;		/* t next pointer points to the right node */
+       p->next = t; 			/* p->next points to t, so t is between left and right */
+
+
+     #+end_src
+**** Combine
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       void Insert (int pos, int x){
+	 Node *t, *p;
+	 if (pos == 0) {
+	   t = new Node;
+	   t->data = x;
+	   t->next = first;
+	   first = t;
+	 }
+	 else if (pos > 0) {
+	   p = first;
+	   for (i = 0; i < pos-1 && p != NULL ; i++) {
+	     p = p->next;
+	   }
+
+	   if (p != NULL) {
+	     t = new Node;
+	     t->data = x;
+	     t->next = p->next;
+	     p->next = t;
+	   }
+	 }
+       }
+     #+end_src
+**** Special case: Insert at last only
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       void InsertLast(int x){
+	 Node *t = new Node;
+	 t->data = x;
+	 t->next = NULL;
+
+	 /* no node in list */
+	 if (first == NULL) {
+	   first = last = t;
+	 }
+	 else {
+	   last->next = t;
+	   last = t;
+	 }
+       }
+     #+end_src
+**** Insert in a *SORTED* linked list, at a *SORTED* position
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C 
+       /* Time: min O(1) max O(n) */
+       p = first;
+       q = NULL;
+
+       while (p != NULL && p->data < x) {
+	 q = p;
+	 p = p->next;
+	}
+
+       t = new Node;
+       t->data = x;
+       t->next = q->next;
+       q->next = t;
+     #+end_src
+*** Deleting
+**** Delete first node
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Time O(1)  */
+       Node *p = first;		/* arbitray pointer p poins to first */
+       first=first->next;		/* move first to point to next node */
+       delete p; 			/* delete the original first */
+
+     #+end_src
+**** Delete at given position
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Time min O(1) max O(n) */
+       Node *p = first;
+       Node *q = NULL;
+
+       for (i = 0; i < pos-1 ; i++) {
+	 q = p;
+	 p = p->next;
+	}
+
+       q->next = p->next;
+       delete p;
+
+     #+end_src
+*** Check if linkedlist is sorted
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      /* Time O(n) max O(1) min */
+      int x = -32768;
+      Node *p = first;
+
+      while (p != NULL) {
+	if (p->data < x) {
+	  return false;
+	}
+	x = p->data;
+	p = p->next;
+       }
+      return true;
+    #+end_src
+*** Remove duplicate 
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      Node *p = first;
+      Node *q = first->next;
+      while (q != NULL) {
+	if (p->data != q->data) {
+	  p = q;
+	  q = q->next;
+	}
+	else {
+	  p->next = q->next;
+	  delete q;
+	  q = p->next;
+	}
+       }
+    #+end_src
+
+*** Reverse a linkedlist 
+**** Interchange elements
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       p = first;
+       i = 0;
+       /* Copy to extra array */
+       while (p != NULL) {
+	 A[i] = p->data;
+	 p = p->next;
+	 i++;
+	}
+       p = first;
+       i--;
+
+       /* Reverse copy back to list */
+       while (p != NULL) {
+	 p->data = A[i];
+	 i--;
+	 p = p->next;
+	}
+     #+end_src
+**** Reversing links
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* Setup 3 sliding pointers */
+       p = first;
+       q = NULL;
+       r = NULL;
+
+       while (p != NULL) {
+	 r = q;
+	 q = p;
+	 p = p->next;
+
+	 q->next = r;
+	}
+
+       /* Update first */
+       first = q;
+     #+end_src
+**** Recursion
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       void Reverse(Node *q, Node *p){
+	 if (p != NULL) {
+	   Reverse(p, p->next);
+	   p->next = q;
+	 }
+	 else {
+	   first = q;
+
+	 }
+       }
+     #+end_src
+
+*** Joining/Append 2 linked list
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      p = first;
+
+      /* traverse till the last node and stop */
+      while (p->next != NULL) {
+	p = p->next;
+       }
+
+      p->next = second; 		/* point last node to first node of the other list */
+      second = NULL; 			/* delete/free/NULL the extra pointer */
+    #+end_src
+*** Merging 2 linkedlist
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      /* Create 2 pointers for the merged list */
+      Node *third, *last;
+
+      /* First loop */
+      if (first->data < second->data) {
+	third = last = first;
+	first = first->next;
+	last->next = NULL;
+       }
+       else {
+	 third=last=second;
+	 second = second->next;
+	 last->next = NULL;
+       }
+
+      while (first != NULL && second != NULL) {
+	if (first->data < second->data) {
+	  last->next = first;
+	  last = first;
+	  first = first->next;
+	  last->next = NULL;
+	}
+	else {
+	  last->next = second;
+	  last = second;
+	  second = second->next;
+	  last->next = NULL;
+	}
+       }
+
+      if (first != NULL) {
+	last->next = first;
+       }
+       else {
+	 last->next = second;
+       }
+    #+end_src
+*** Check for LOOP in
+**** LOOP: Last node points to some other nodes
+**** LINEAR: Last node points to NULL
+***** 
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	int isLoop(Node *first){
+	  Node *p, *q;
+	  p = q = first;
+	  do
+	    {
+	      p = p-next;
+	      q = q->next;
+	      if (q != NULL) {
+		q = q->next;
+	      }
+	      else {
+		q = NULL;
+	      }
+	    } while (p != NULL && q != NULL);
+
+
+	  if (p == q) {
+	    return true;
+	  }
+	  else {
+	    return false;
+	  }
+
+
+	}
+      #+end_src
+     
+*** Circular linkedlist
+**** Last node points to first node
+**** or a collection of nodes that are circularly connected
+**** Use HEAD instead of FIRST
+**** Two representations:
+***** HEAD/1st node -> 2nd node -> 3rd node -> 4th node -> back to HEAD/1st node  
+***** HEAD -> 1st -> 2nd -> 3rd -> 4th -> back to 1st
+**** How to display
+***** Loop display 
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	void Display(Node *p){
+	  do
+	    {
+	      printf("%d\n", p->data);
+	      p = p->next;
+	    } while (p != Head);
+
+	}
+      #+end_src
+***** Recursive display
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	void Display(Node *p){
+	  static int flag = 0;		/* so only 1 creation of int flag */
+	  if (p != Head || flag = 0) {
+	    flag = 1;
+	    printf("%d\n", p->data);
+	    Display(p->next);
+	  }
+	  flag = 0;
+	}
+      #+end_src
+**** How to insert
+***** After Head
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	Node *t;
+	Node *p = Head;
+
+	for (i = 0; i < pos-1 ; i++) {
+	  p = p->next;
+	 }
+
+	t = new Node;
+	t->data = x;
+	t->next = p->next;
+	p->next = t;
+      #+end_src
+***** Before Head
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	Node *t = new Node;
+	t->data = x;
+	t->next = Head;
+
+	Node *p = Head;
+	while (p->next != Head) {
+	  p = p->next;
+	 }
+
+	p->next = t;
+	Head = t;
+      #+end_src
+**** Delete
+***** Delete from Given Position
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	p = Head;
+	for (i = 0; i < pos-2 ; i++) {
+	  p = p->next;
+	 }
+
+	q = p->next;
+	p->next = q->next;
+	x = q->data;
+	delete q;
+
+      #+end_src
+***** Delete Head
+      #+ATTR_LATEX: :options frame=single
+      #+begin_src C
+	p = Head;
+	while (p->next != Head) {
+	  p = p->next;
+	 }
+
+	p->next = Head->next;
+	x = Head->data;
+	delete Head;
+	Head = p->next;
+      #+end_src
+
+** Doubly Linked List
+*** a node has pointer to *NEXT* node and *PREVIOUS* node
+*** Structure in C:
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      struct Node
+      {
+	struct Node *prev;
+	int data;
+	struct Node *next;
+      };
+    #+end_src
+*** Insertion
+**** Before first
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       Node *t = new Node;
+       t->data = x;
+
+       /* Modify links */
+       t->prev = NULL;
+       t->next = first;
+       first->prev = t;
+
+       /* Rename new first */
+       first = t;
+     #+end_src
+**** After given index min O(1) max O(n)
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       Node *t = new Node;
+       t->data = x;
+
+       /* To reach the node before the insertion */
+       for (i = 0; i < pos-1 ; i++) {
+	 p = p->next
+	   }
+
+       /* Modify links */
+       t->next = p->next;		/* inserted node should point to the node on the RIGHT (p->next) */
+       t->prev = p;			/* inserted node should point to the node on the LEFT (p) */
+
+
+       /* for node on the RIGHT, its prev must point to the inserted node */
+       /* Must check if next is available, in case we insert at last then next is NULL */
+       if (p->next ! =NULL) {
+	 p->next->prev = t;
+	}
+
+       p->next = t; 			/* node on the LEFT should point to the inserted node */
+
+     #+end_src
+*** Delete
+**** Delete 1st node
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       p = first;
+       first = first->next;
+       x = p->data;
+       delete p;
+
+       if (first != NULL) {
+	 first->prev = NULL;
+	}
+     #+end_src
+**** Delete from given index
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       /* bring a pointer p upon given index */
+       p = first;
+
+       for (i = 0; i < pos-1 ; i++) {
+	 p = p->next;
+	}
+
+       p->prev->next = p->next; 	/* LEFT node points to RIGHT node, skip CURRENT */
+
+       if (p->next != NULL) {		/* if RIGHT node exists */
+	 p->next->prev = p->prev;  	/* RIGHT node points to LEFT node, skip CURRENT */
+	}
+
+       x = p->data;
+       delete p;
+     #+end_src
+*** Reverse
+**** Display
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C
+       p = first;
+
+       while (p != NULL) {
+	 printf("%d\n", p->data);
+	 p = p->next
+
+	   }
+
+     #+end_src
+**** Reverse
+     #+ATTR_LATEX: :options frame=single
+     #+begin_src C 
+       p = first;
+
+       while (p != NULL) {
+	 temp = p->next;
+	 p->next = p->prev;
+	 p->prev = temp;
+	 p = p->prev;
+	}
+
+       /* for last node, bring first there */
+       if (p!= NULL && p->next == NULL) {
+	 first = p;
+	}
+     #+end_src
+*** Circular
+**** Insert
+**** Display
+* Comparing different linkedlists
+** Space: Doubly takes double the amount of pointers in Singly
+** Insert: constant time for Linear Singly, Linear Doubly, Circular Doubly.  Nth time for Circular Singly
+* Array vs Linkedlist
+** Creation: array in stack or heap, LL is always on heap
+** Size: array fixed, LL can grow until heap is full
+** LL takes extra space
+** Array access directly (faster), LL access sequentially (slower)
+** Data movement in array is more expensive
+* Student challenge
+** Find middle node of LL
+*** 1st solution
+**** find length of LL => say 7
+**** reach middle node => 7/2 ~ 4 
+**** move the pointer 4-1 times
+*** 2nd solution
+**** use 2 pointers, 1 move 2 space, other move 1 space
+*** 3rd solution
+**** push each node to a stack
+**** pop out the node at stack number floor(stack size / 2)
+** Find intersection of 2 LL
+*** Eg: LL1->LL3 and LL2->LL3 => Both LL1 and LL2 has LL3 as common. For example:
+**** LL1: 8->6->3->9->10->4->2->12
+**** LL2: 20->30->40->10->4->2->12 
+*** We need to find the starting common point, i.e. block *10*?
+**** We traverse the 1st LL or 2nd LL till the end.  
+**** Then from end, we traverse back, if the previous block is different,
+**** then current block is *intersection point*
+**** But cannot traverse back in Single LL?? Use Stack
+***** Traverse each LL, store address in a stack
+***** Then compare two stacks, whenever the address differ, that location is the *intersection*
+**** Suppose our LL1 and LL2 has the following address
+***** LL1: length 8 
+      | Data | Address |
+      |------+---------|
+      |    8 |     100 |
+      |    6 |     110 |
+      |    3 |     130 |
+      |    9 |     150 |
+      |   *10* |     *200* |
+      |    4 |     220 |
+      |    2 |     240 |
+      |   12 |     260 |
+***** LL2: length 7
+      | Data | Address |
+      |------+---------|
+      |   20 |     300 |
+      |   30 |     310 |
+      |   40 |     330 |
+      |   *10* |     *200* |
+      |    4 |     220 |
+      |    2 |     240 |
+      |   12 |     260 |
+***** Record address in a stack. *Note*: first address goes to bottom:
+      | Stack 1 | Stack 2 |
+      |---------+---------|
+      |     260 |     260 |
+      |     240 |     240 |
+      |     220 |     220 |
+      |     *200* |     *200* |
+      |     150 |     330 |
+      |     130 |     310 |
+      |     110 |     300 |
+      |     100 |         |
+****** Comparing the two stacks, pops out an address, if same, delete
+****** Keep track of the previous address that we pop out.
+       | Stack 1 | Stack 2 |
+       |---------+---------|
+       |     260 |     260 |
+       |     240 |     240 |
+       |     220 |     220 |
+       |     200 |     200 |
+       |     *150* |     *330* |
+       |     130 |     310 |
+       |     110 |     300 |
+       |     100 |         |
+****** Addresses *150* and *330* are different => The intersection is the node before 
+****** i,e, node with address 200, which contains data *10*
+** Sparse matrix using LL
+*** Suppose we have the following matrix 5 x 6
+    
+    | . | / | *0* | *1* | *2* | *3* | *4* | *5* |
+    |---+---+---+---+---+---+---+---|
+    | *0* | / | 0 | 0 | 0 | 0 | 8 | 0 |
+    | *1* | / | 0 | 0 | 0 | 7 | 0 | 0 |
+    | *2* | / | 5 | 0 | 0 | 0 | 9 | 0 |
+    | *3* | / | 0 | 0 | 0 | 0 | 0 | 3 |
+    | *4* | / | 6 | 0 | 0 | 4 | 0 | 0 |
+    
+*** We want to *AVOID STORING ZEROES*
+*** Coordinate, for number 7 is at (1,3) 1st row, 3rd column
+*** For each row, we represent the non zero as an LL. Eg:
+**** *Row 0*: |-4-|-8-|-NULL-|
+***** Row 0 has element at 4th column, data is 8, it has no other, so pointer next is NULL
+**** *Row 1*: |-3-|-7-|-NULL-|
+**** *Row 2*: |-0-|-5-|------| --> |-4-|-9-|-NULL-|  
+***** Here Row 2 at 0th column has element 5, there is also element 9 at 4th column, so *next* point to this. 
+**** *Row 3*: |-5-|-3-|-NULL-|
+**** *Row 4*: |-0-|-6-|------| --> |-3-|-4-|-NULL-|
+*** This is called an *ARRAY OF LINKED LIST*  
+*** So, the Node structure contains: *Column*, *Value*, *Next*
+*** To make this structure in C:
+    #+ATTR_LATEX: :OPTIONS FRAME=SINGLE
+    #+BEGIN_SRC C 
+      struct Node
+      {
+	int col;
+	int val;
+	struct Node *next;
+      };
+    #+END_SRC
+    >
+*** We need the number of row, so we can create an array of size row
+*** In our example, we have 5 rows x 6 cols. Generalized to m x n matrix, where *m = 5*
+    #+ATTR_LATEX: :OPTIONS FRAME=SINGLE
+    #+BEGIN_SRC C
+      /* Create array of size m */
+      Node *A[m];
+
+      /* For each row, we create a new node */
+      A[0] = new Node;
+    #+END_SRC
+    >
+** Polynomial representations
+*** Consider: P(x) = 4x^3 + 9x^2 + 6x + 7
+*** We will construct each term as a node that has: coefficient, exponent and next pointer
+    #+ATTR_LATEX: :options frame=single
+    #+begin_src C
+      struct Node
+      {
+	int coeff;
+	int exp;
+	struct Node *next;
+      };
+    #+end_src
+
+* Codes
+** Implement in C: file:linkedlistBasic.c
+** Implement in C++: file:linkedlistBasic.cpp
+** Circular linkedlist in C: file:circularLinkedList.c
+** Circular Doubly LinkedList in C: file:circularDoubly.c
+** Doubly linkedlist in C: file:doubleLinkedList.c
+** Student challenge intersection: file:challengeIntersection.c
+** Student challenge middle node: [[file:challengeMiddle.c][findMiddle]]
+** Student challenge sparse matrix: [[file:challengeSparseMatrix.c][sparseMatrix]]
+** Student challenge: [[file:challengePolynomial.c][polynomialLinkedList]]
+** Basic Stack implementation: [[file:stackBasic.c][stackBasic]]
+

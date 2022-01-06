@@ -1,4 +1,4 @@
-* Intro to array
+* Intro to arrays
 ** array on integer
 ** Declaring arrays
 *** int A[5];   where we get garbage values
